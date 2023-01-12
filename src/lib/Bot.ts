@@ -1,15 +1,12 @@
 import { Client, Collection } from 'discord.js';
 import { join } from 'path';
 import fs from 'fs';
-
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
-
 import config from '../configs/config';
-import Command from '../types/command';
 
 export default class Bot {
-  public commands = new Collection<string, Command>();
+  public commands = new Collection<string, any>();
   private commandsArray: any[] = [];
 
   constructor(public readonly client: Client) {
