@@ -26,6 +26,8 @@ export default {
         const buttonId = interaction.customId;
         if (buttonId.startsWith('resolve-')) {
           buttonHandler['resolve'](interaction);
+        } else if (buttonId.startsWith('accept_') || buttonId.startsWith('deny_')) {
+          buttonHandler['accept-deny'](interaction);
         } else {
           const handler = buttonHandler[buttonId]
           if (handler != null) {

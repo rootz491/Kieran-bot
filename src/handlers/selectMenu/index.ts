@@ -1,5 +1,5 @@
 import { ActionRowBuilder, ModalBuilder, StringSelectMenuInteraction, TextInputBuilder, TextInputComponent, TextInputStyle } from "discord.js";
-import { TicketData } from "../../configs/ticket.dev";  //  TODO update this to prod
+import { bot } from "../..";
 import { SelectMenuHandler } from "../../types/handlers";
 import { TicketType } from "../../types/ticket";
 import { createTicket } from "../../utils/ticket/create";
@@ -15,7 +15,7 @@ const selectMenuHandler: SelectMenuHandler = {
         const value = interaction.values[0];
         const ticketType = selectMenuId.split('-').filter((_, i) => i != 0).join("-") as TicketType;
 
-        const ticket = TicketData.find(ticket => ticket.type === ticketType && ticket.id === value);
+        const ticket = bot.ticketData.find(ticket => ticket.type === ticketType && ticket.id === value);
         
         if (ticket) {
             const modal = new ModalBuilder()
@@ -51,7 +51,8 @@ const selectMenuHandler: SelectMenuHandler = {
                 const ticketRes = await createTicket(
                     submittedInteraction,
                     ticketDescription,
-                    ticket
+                    ticket,
+                    interaction.user.id
                 );
 
                 if (ticketRes && ticketRes.success) {

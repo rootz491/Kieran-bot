@@ -12,20 +12,20 @@ import {
   ColorResolvable,
   ChannelType
 } from 'discord.js';
-import config from '../../configs/config';
-import { TicketData } from '../../configs/ticket.dev';
+import { bot } from '../..';
 import { Ticket } from '../../types/ticket';
 
 export const createTicket = async (
   interaction: ModalSubmitInteraction,
   description: string,
-  ticket: Ticket
+  ticket: Ticket,
+  userId: string
 ) => {
   if (ticket.type === 'CHAT') {
     //  create a channel, add admin, staff & user
     const ticketChannel = await interaction.guild!.channels.create({
       name: `ticket-${interaction.user.tag}`,
-      parent: ticket.categoryId, //  TODO fetch from config later
+      parent: ticket.categoryId,
       reason: `${interaction.user.tag} (${interaction.user.id}) made a ${ticket.name} ticket of ticket type ${ticket.type} with id ${ticket.id}`,
       topic: `${interaction.user.tag}'s ticket | ${interaction.user.id} | ${ticket.type} | ${ticket.id}`,
       permissionOverwrites: [
@@ -43,12 +43,12 @@ export const createTicket = async (
           ]
         },
         {
-          id: config.ROLES.ADMIN_ROLE_ID,
+          id: bot.config.ROLES.ADMIN_ROLE_ID,
           type: OverwriteType.Role,
           allow: [PermissionsBitField.All]
         },
         {
-          id: config.ROLES.STAFF_ROLE_ID,
+          id: bot.config.ROLES.STAFF_ROLE_ID,
           type: OverwriteType.Role,
           allow: [PermissionsBitField.All]
         }
@@ -63,14 +63,14 @@ export const createTicket = async (
     );
     const confirmationEmbed = new EmbedBuilder()
       .setTitle('Ticket Request')
-      .setColor(config.COLORS.SUCCESS as ColorResolvable)
+      .setColor(bot.config.COLORS.SUCCESS as ColorResolvable)
       .setDescription(
         `Hey, ${interaction.user}. Your ticket has been created: ${ticketChannel}`
       );
   
     const ticketInitEmbed = new EmbedBuilder()
       .setTitle('Ticket')
-      .setColor(config.COLORS.MAIN as ColorResolvable)
+      .setColor(bot.config.COLORS.MAIN as ColorResolvable)
       .setDescription(
         ticket.description + '\n\n**Description:** \n' + description
       );
@@ -114,22 +114,23 @@ export const createTicket = async (
 
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
-        .setCustomId(`accept-${ticketChannel.id}-${ticket.id}`)
+        .setCustomId(`accept_${userId}_${ticket.id}`)
         .setLabel('Accept')
         .setStyle(ButtonStyle.Success),
       new ButtonBuilder()
-        .setCustomId(`deny-${ticketChannel.id}-${ticket.id}`)
+        .setCustomId(`deny_${userId}_${ticket.id}`)
         .setLabel('Deny')
         .setStyle(ButtonStyle.Danger)
     );
 
     const ticketInitEmbed = new EmbedBuilder()
       .setTitle(ticket.name)
-      .setColor(config.COLORS.MAIN as ColorResolvable)
+      .setColor(bot.config.COLORS.MAIN as ColorResolvable)
       .setDescription(`
         **Username:** ${interaction.user.tag}
         **Description:** \n${description}
-      `);
+      `)
+      .setTimestamp();
 
     await ticketChannel.send({
       embeds: [ticketInitEmbed],
@@ -160,7 +161,7 @@ export const getOpenedTicketNumber = async (
 };
 
 export const maxTicketReached = async (guild: Guild, ticketId: string) => {
-  const maxTickets = TicketData.find((ticket) => ticket.id === ticketId)?.maxTickets;
+  const maxTickets = bot.ticketData.find((ticket) => ticket.id === ticketId)?.maxTickets;
   let count = 0;
   for (let channel of guild.channels.cache.values()) {
     channel = channel as TextChannel;

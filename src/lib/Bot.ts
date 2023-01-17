@@ -3,11 +3,16 @@ import { join } from 'path';
 import fs from 'fs';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
-import config from '../configs/config';
+import config from '../configs/config.dev';
+import { TicketData, TicketMenuData } from '../configs/ticket.dev';
 
 export default class Bot {
   public commands = new Collection<string, any>();
   private commandsRegisterArray: any[] = [];
+
+  public config = config;
+  public ticketData = TicketData;
+  public ticketMenuData = TicketMenuData;
 
   constructor(public readonly client: Client) {
     this.client.login(config.TOKEN);
