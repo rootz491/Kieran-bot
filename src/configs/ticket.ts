@@ -13,7 +13,8 @@ export const TicketData: Ticket[] = [
       enabled: true,
       title: 'Ticket Closed',
       description: 'Your ticket has been closed. If you have any further questions, please open a new ticket.'
-    }
+    },
+    maxTickets: 20,
   },
   {
     id: 'contact-admin',
@@ -24,7 +25,8 @@ export const TicketData: Ticket[] = [
     description: 'Please be patient, a staff member will be with you shortly.',
     ticketClosingMessage: {
       enabled: false,
-    }
+    },
+    maxTickets: 20
   },
   {
     id: 'report-bug',
@@ -35,7 +37,8 @@ export const TicketData: Ticket[] = [
     description: 'Please be patient, a staff member will be with you shortly.',
     ticketClosingMessage: {
       enabled: false,
-    }
+    },
+    maxTickets: 20
   },
   {
     id: 'report-player',
@@ -46,7 +49,8 @@ export const TicketData: Ticket[] = [
     description: 'Please be patient, a staff member will be with you shortly.',
     ticketClosingMessage: {
       enabled: false,
-    }
+    },
+    maxTickets: 20
   },
   {
     id: 'appeal-punishment',
@@ -57,7 +61,8 @@ export const TicketData: Ticket[] = [
     description: 'Please be patient, a staff member will be with you shortly.',
     ticketClosingMessage: {
       enabled: false,
-    }
+    },
+    maxTickets: 20
   },
   {
     id: 'other-inquiries',
@@ -68,7 +73,8 @@ export const TicketData: Ticket[] = [
     description: 'Please be patient, a staff member will be with you shortly.',
     ticketClosingMessage: {
       enabled: false,
-    }
+    },
+    maxTickets: 20
   },
   //  Application Tickets
   {
@@ -78,7 +84,8 @@ export const TicketData: Ticket[] = [
     channelId: '-',
     loggingChannel: '1058142184358027314',
     acceptMessage: 'Thank you for your application, we will be in touch shortly.',
-    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more staff at this time.'
+    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more staff at this time.',
+    maxTickets: 20
   },
   {
     id: 'apply-for-builder',
@@ -87,7 +94,8 @@ export const TicketData: Ticket[] = [
     channelId: '-',
     loggingChannel: '1058142184358027314',
     acceptMessage: 'Thank you for your application, we will be in touch shortly.',
-    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more builders at this time.'
+    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more builders at this time.',
+    maxTickets: 20
   },
   {
     id: 'apply-for-content-creator',
@@ -96,7 +104,8 @@ export const TicketData: Ticket[] = [
     channelId: '-',
     loggingChannel: '1058142184358027314',
     acceptMessage: 'Thank you for your application, we will be in touch shortly.',
-    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more content creators at this time.'
+    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more content creators at this time.',
+    maxTickets: 20
   },
   {
     id: 'apply-for-beta-tester',
@@ -105,7 +114,8 @@ export const TicketData: Ticket[] = [
     channelId: '-',
     loggingChannel: '1058142184358027314',
     acceptMessage: 'Thank you for your application, we will be in touch shortly.',
-    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more beta testers at this time.'
+    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more beta testers at this time.',
+    maxTickets: 20
   }
 ];
 
@@ -114,7 +124,7 @@ export const TicketMenuData: TicketMenu[] = [
     type: 'CHAT',
     title: 'Tickets',
     description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.',
-    embedColor: '#00FF00'
+    embedColor: '#00FF00',
   },
   {
     type: 'APPLICATION',

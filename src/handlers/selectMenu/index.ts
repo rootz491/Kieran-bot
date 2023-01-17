@@ -1,7 +1,8 @@
-import { StringSelectMenuInteraction } from "discord.js";
+import { ActionRowBuilder, ModalBuilder, StringSelectMenuInteraction, TextInputBuilder, TextInputComponent, TextInputStyle } from "discord.js";
 import { TicketData } from "../../configs/ticket.dev";  //  TODO update this to prod
 import { SelectMenuHandler } from "../../types/handlers";
 import { TicketType } from "../../types/ticket";
+import { createTicket } from "../../utils/ticket/create";
 
 const selectMenuHandler: SelectMenuHandler = {
     'test': async (interaction: StringSelectMenuInteraction) => {
@@ -15,10 +16,53 @@ const selectMenuHandler: SelectMenuHandler = {
         const ticketType = selectMenuId.split('-').filter((_, i) => i != 0).join("-") as TicketType;
 
         const ticket = TicketData.find(ticket => ticket.type === ticketType && ticket.id === value);
-        console.log(ticket);
         
         if (ticket) {
-            //  TODO: Open ticket
+            const modal = new ModalBuilder()
+                .setCustomId("ticket-description")
+                .setTitle(ticket.name)
+                .addComponents(
+                    new ActionRowBuilder<TextInputBuilder>()
+                        .addComponents(
+                            new TextInputBuilder()
+                                .setCustomId("description")
+                                .setLabel("Description")
+                                .setPlaceholder("Please enter a description for your ticket")
+                                .setStyle(TextInputStyle.Paragraph)
+                                .setMinLength(1)
+                                .setMaxLength(100)
+                                .setRequired(true),
+                        )
+            )
+
+        await interaction.showModal(modal);
+
+        const submittedInteraction = await interaction.awaitModalSubmit({
+            time: 60000,
+            filter: (k: any) => k.user.id === interaction.user.id,
+        }).catch((error: any) => {
+            console.error(error)
+            return null
+        })
+
+            if (submittedInteraction) {
+                const ticketDescription = submittedInteraction.fields.getTextInputValue("description");
+                console.log(ticketDescription);
+                const ticketRes = await createTicket(
+                    submittedInteraction,
+                    ticketDescription,
+                    ticket
+                );
+
+                if (ticketRes && ticketRes.success) {
+                    console.log("Ticket created successfully");
+                } else {
+                    await interaction.reply({
+                        content: `Ticket creation failed: ${JSON.stringify(ticketRes ?? { error: "Unknown error" })}`,
+                        ephemeral: true,
+                    });
+                }
+            }
         } else {
             await interaction.reply({
                 content: `Ticket [${ticketType}] with id [${value}] not found`,

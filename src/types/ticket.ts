@@ -5,6 +5,7 @@ interface BaseTicket {
   name: string;
   type: TicketType;
   loggingChannel: string;
+  maxTickets: number;
 }
 
 interface ChatTicket extends BaseTicket {

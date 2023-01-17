@@ -1,0 +1,1 @@
+// TODO create all commands whose configs are available in the command config file

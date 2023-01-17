@@ -6,32 +6,43 @@ import {
   Message,
   User
 } from 'discord.js';
-import config from '../../configs/config';
 import { FetchMessageOptions } from '../../types/message';
 
-export const closeTicket = async (channelId: string, reason: string) => {
-  const channel = bot.client.channels.cache.get(channelId) as TextChannel;
+export const closeTicket = async (ticketChanneId: string, reason: string, loggingChannelId: string) => {
+  const ticketChannel = (await bot.getMainGuild()).channels.cache.get(ticketChanneId) as TextChannel;
+  const loggingChannel = (await bot.getManagementGuild()).channels.cache.get(loggingChannelId) as TextChannel;
 
-  const userID = channel.topic?.split('|').pop()?.replace(' ', '');
+  if (ticketChannel == null) {
+    console.log('Ticket channel not found!');
+    return false;
+  } else if (loggingChannel == null) {
+    console.log('Logging channel not found!');
+    return false;
+  }
 
-  const user = await bot.client.users
-    .fetch(userID as string)
-    .catch((_) => null);
+  console.log('Closing ticket...');
 
-  if (user != null) sendTranscript(channel, user, reason);
-
-  channel
+  await sendTranscript(ticketChannel, reason, loggingChannel, async () => {
+  await ticketChannel
     .delete()
     .then(() => true)
     .catch(() => false);
+  });
+
+  return true;
 };
 
 export const sendTranscript = async (
-  channel: TextChannel,
-  user: User,
-  reason: string
+  ticketChannel: TextChannel,
+  reason: string,
+  loggingChannel: TextChannel,
+  callback: () => Promise<void>
 ) => {
-  const messages = await fetchMessages(channel, { reverseArray: true });
+
+  console.log('Sending transcript...');
+  
+
+  const messages = await fetchMessages(ticketChannel, { reverseArray: true });
   if (!messages.length) return;
 
   const messagesAsStrings = messages.map((message) => {
@@ -45,35 +56,27 @@ export const sendTranscript = async (
       isEdited ? ' (edited)' : ''
     }`;
   });
-
-  const transcriptChannelId = 'CHANNEL_ID'; //  TODO update this later
-
-  const transcriptChannel = channel.guild.channels.cache.get(
-    transcriptChannelId
-  ) as TextChannel | undefined;
-  if (!transcriptChannel) return;
-
   const transcript = new AttachmentBuilder(
     Buffer.from(messagesAsStrings.join('\n'), 'utf-8'),
     {
-      name: `${channel.name}.txt`
+      name: `${ticketChannel.name}.txt`
     }
   );
 
-  const ticketCreatorTag = channel.topic?.split("'").shift();
+  const ticketCreatorTag = ticketChannel.topic?.split("'").shift();
   const embed = new EmbedBuilder()
     .setColor('#3459d3')
     .setTitle(`Ticket Closed`)
     .setDescription(
       [
-        `${ticketCreatorTag}'s ticket #${channel.name} (${channel.id}) has been closed.`,
+        `${ticketCreatorTag}'s ticket #${ticketChannel.name} (${ticketChannel.id}) has been closed.`,
         'A transcript is available above.'
       ].join('\n')
     )
     .addFields([
       {
         name: 'Ticked Opened On',
-        value: `${channel.createdAt}`,
+        value: `${ticketChannel.createdAt}`,
         inline: true
       },
       {
@@ -88,21 +91,24 @@ export const sendTranscript = async (
     ])
     .setTimestamp();
 
-  transcriptChannel
+  loggingChannel
     .send({
       embeds: [embed],
       files: [transcript]
     })
+    .then(() => console.log('Transcript sent to logging channel!'))
+    .then(callback)
     .catch((_) => {
-      //
+      console.log('Could not send transcript to logging channel!');
     });
 
-  user
-    .send({
-      embeds: [embed],
-      files: [transcript]
-    })
-    .catch((_) => null);
+  // user
+  //   .send({
+  //     embeds: [embed],
+  //     files: [transcript]
+  //   })
+  //   .catch((_) => null);
+
 };
 
 export const fetchMessages = async (

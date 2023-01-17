@@ -6,106 +6,116 @@ export const TicketData: Ticket[] = [
     id: 'clain-reward',
     name: 'Claim a Reward',
     type: 'CHAT',
-    categoryId: '1024085417299017828',
-    loggingChannel: '1039619114576117760',
+    categoryId: '1064877949641293865',
+    loggingChannel: '1064887383348232292',
     description: 'Please be patient, a staff member will be with you shortly.',
     ticketClosingMessage: {
       enabled: true,
       title: 'Ticket Closed',
       description: 'Your ticket has been closed. If you have any further questions, please open a new ticket.'
-    }
+    },
+    maxTickets: 20,
   },
   {
     id: 'contact-admin',
     name: 'Contact an Admin',
     type: 'CHAT',
-    categoryId: '1024085579106885763',
-    loggingChannel: '1039619114576117760',
+    categoryId: '1064877949641293865',
+    loggingChannel: '1064887383348232292',
     description: 'Please be patient, a staff member will be with you shortly.',
     ticketClosingMessage: {
       enabled: false,
-    }
+    },
+    maxTickets: 20
   },
   {
     id: 'report-bug',
     name: 'Report a Bug',
     type: 'CHAT',
-    categoryId: '1039862828280074260',
-    loggingChannel: '1039619114576117760',
+    categoryId: '1064877949641293865',
+    loggingChannel: '1064887383348232292',
     description: 'Please be patient, a staff member will be with you shortly.',
     ticketClosingMessage: {
       enabled: false,
-    }
+    },
+    maxTickets: 20
   },
   {
     id: 'report-player',
     name: 'Report a Player ',
     type: 'CHAT',
-    categoryId: '1024085500736315432',
-    loggingChannel: '1058142239714451497',
+    categoryId: '1064877949641293865',
+    loggingChannel: '1064887383348232292',
     description: 'Please be patient, a staff member will be with you shortly.',
     ticketClosingMessage: {
       enabled: false,
-    }
+    },
+    maxTickets: 20
   },
   {
     id: 'appeal-punishment',
     name: 'Appeal a Punishment',
     type: 'CHAT',
-    categoryId: '1024085786708164628',
-    loggingChannel: '1058142239714451497',
+    categoryId: '1064877949641293865',
+    loggingChannel: '1064887383348232292',
     description: 'Please be patient, a staff member will be with you shortly.',
     ticketClosingMessage: {
       enabled: false,
-    }
+    },
+    maxTickets: 20
   },
   {
     id: 'other-inquiries',
     name: 'Other Inquiries',
     type: 'CHAT',
-    categoryId: '1024085914554748938',
-    loggingChannel: '1058142239714451497',
+    categoryId: '1064877949641293865',
+    loggingChannel: '1064887383348232292',
     description: 'Please be patient, a staff member will be with you shortly.',
     ticketClosingMessage: {
       enabled: false,
-    }
+    },
+    maxTickets: 20
   },
   //  Application Tickets
   {
     id: 'apply-for-staff',
     name: 'Apply for Staff',
     type: 'APPLICATION',
-    channelId: '-',
-    loggingChannel: '1058142184358027314',
+    channelId: '1064878004649611336',
+    loggingChannel: '1064877260693315684',
     acceptMessage: 'Thank you for your application, we will be in touch shortly.',
-    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more staff at this time.'
+    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more staff at this time.',
+    maxTickets: 20
   },
   {
     id: 'apply-for-builder',
     name: 'Apply for Builder',
     type: 'APPLICATION',
-    channelId: '-',
-    loggingChannel: '1058142184358027314',
+    channelId: '1064878004649611336',
+    loggingChannel: '1064877260693315684',
     acceptMessage: 'Thank you for your application, we will be in touch shortly.',
-    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more builders at this time.'
+    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more builders at this time.',
+    maxTickets: 20
   },
   {
     id: 'apply-for-content-creator',
     name: 'Apply for Content Creator',
     type: 'APPLICATION',
-    channelId: '-',
-    loggingChannel: '1058142184358027314',
+    channelId: '1064878004649611336',
+    loggingChannel: '1064877260693315684',
     acceptMessage: 'Thank you for your application, we will be in touch shortly.',
-    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more content creators at this time.'
+    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more content creators at this time.',
+    maxTickets: 20
   },
   {
     id: 'apply-for-beta-tester',
     name: 'Apply for Beta Tester',
     type: 'TEST-APPLICATION',
-    channelId: '-',
-    loggingChannel: '1058142184358027314',
+    channelId: '1064878004649611336',
+    loggingChannel: '1064877260693315684',
     acceptMessage: 'Thank you for your application, we will be in touch shortly.',
-    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more beta testers at this time.'
+    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more beta testers at this time.',
+    maxTickets: 20
   }
 ];
 
@@ -114,7 +124,7 @@ export const TicketMenuData: TicketMenu[] = [
     type: 'CHAT',
     title: 'Tickets',
     description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.',
-    embedColor: '#00FF00'
+    embedColor: '#00FF00',
   },
   {
     type: 'APPLICATION',

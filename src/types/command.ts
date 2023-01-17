@@ -1,8 +1,29 @@
-export default interface Command {
+export interface Command {
   name: string;
+  embed: Embed;
+  roles?: Role[];
+}
+
+export interface Embed {
+  title: string;
   description: string;
-  aliases?: string[];
-  permissions?: string[];
-  cooldown?: number;
-  execute(...args: any): any;
+  color: string;
+  fields: Field[];
+  footer: Footer;
+  timestamp: boolean;
+}
+
+export interface Field {
+  name: string;
+  value: string;
+}
+
+export interface Footer {
+  text: string;
+  icon_url: string;
+}
+
+export interface Role {
+  name: string;
+  id: string;
 }

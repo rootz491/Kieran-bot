@@ -24,14 +24,15 @@ export default {
         const member = interaction.member;
         if (!member) return;
         const buttonId = interaction.customId;
-        const handler = buttonHandler[buttonId]
-        if (handler != null) {
-          handler(interaction);
+        if (buttonId.startsWith('resolve-')) {
+          buttonHandler['resolve'](interaction);
         } else {
-          interaction.reply({
-            content: `button [${buttonId}] is not yet implemented`,
-            ephemeral: true,
-          });
+          const handler = buttonHandler[buttonId]
+          if (handler != null) {
+            handler(interaction);
+          } else {
+            console.log(`button [${buttonId}] is not yet implemented`)
+          }
         }
       }
 
@@ -44,10 +45,7 @@ export default {
         if (handler != null) {
           handler(interaction);
         } else {
-          interaction.reply({
-            content: `modal [${modalId}] is not yet implemented`,
-            ephemeral: true,
-          });
+          console.log(`modal [${modalId}] is not yet implemented`)
         }
       }
 

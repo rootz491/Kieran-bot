@@ -7,7 +7,7 @@ import config from '../configs/config';
 
 export default class Bot {
   public commands = new Collection<string, any>();
-  private commandsArray: any[] = [];
+  private commandsRegisterArray: any[] = [];
 
   constructor(public readonly client: Client) {
     this.client.login(config.TOKEN);
@@ -57,7 +57,7 @@ export default class Bot {
       console.log(`Loaded command ${currentCommand.data.name}`);
 
       const commandData = currentCommand.data.toJSON();
-      this.commandsArray.push(commandData);
+      this.commandsRegisterArray.push(commandData);
     }
   }
 
@@ -66,13 +66,23 @@ export default class Bot {
       const rest = new REST({ version: '9' }).setToken(config.TOKEN);
       rest
         .put(
-          Routes.applicationGuildCommands(config.CLIENT_ID, config.GUILD_ID),
-          { body: this.commandsArray }
+          Routes.applicationGuildCommands(config.CLIENT_ID, config.GUILDS.MAIN_GUILD_ID),
+          { body: this.commandsRegisterArray }
         )
         .then(() =>
           console.log('Successfully registered application commands!')
         )
         .catch(console.error);
     }, 2500);
+  }
+
+  public async getManagementGuild() {
+    const guild = await this.client.guilds.fetch(config.GUILDS.MANAGEMENT_GUILD_ID);
+    return guild;
+  }
+
+  public async getMainGuild() {
+    const guild = await this.client.guilds.fetch(config.GUILDS.MAIN_GUILD_ID);
+    return guild;
   }
 }
