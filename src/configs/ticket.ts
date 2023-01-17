@@ -8,7 +8,12 @@ const TicketData: Ticket[] = [
     type: 'CHAT',
     categoryId: '1024085417299017828',
     loggingChannel: '1039619114576117760',
-    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.'
+    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.',
+    ticketClosingMessage: {
+      enabled: true,
+      title: 'Ticket Closed',
+      description: 'Your ticket has been closed. If you have any further questions, please open a new ticket.'
+    }
   },
   {
     id: 'contact-admin',
@@ -16,7 +21,10 @@ const TicketData: Ticket[] = [
     type: 'CHAT',
     categoryId: '1024085579106885763',
     loggingChannel: '1039619114576117760',
-    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.'
+    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.',
+    ticketClosingMessage: {
+      enabled: false,
+    }
   },
   {
     id: 'report-bug',
@@ -24,7 +32,10 @@ const TicketData: Ticket[] = [
     type: 'CHAT',
     categoryId: '1039862828280074260',
     loggingChannel: '1039619114576117760',
-    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.'
+    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.',
+    ticketClosingMessage: {
+      enabled: false,
+    }
   },
   {
     id: 'report-player',
@@ -32,7 +43,10 @@ const TicketData: Ticket[] = [
     type: 'CHAT',
     categoryId: '1024085500736315432',
     loggingChannel: '1058142239714451497',
-    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.'
+    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.',
+    ticketClosingMessage: {
+      enabled: false,
+    }
   },
   {
     id: 'appeal-punishment',
@@ -40,7 +54,10 @@ const TicketData: Ticket[] = [
     type: 'CHAT',
     categoryId: '1024085786708164628',
     loggingChannel: '1058142239714451497',
-    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.'
+    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.',
+    ticketClosingMessage: {
+      enabled: false,
+    }
   },
   {
     id: 'other-inquiries',
@@ -48,7 +65,10 @@ const TicketData: Ticket[] = [
     type: 'CHAT',
     categoryId: '1024085914554748938',
     loggingChannel: '1058142239714451497',
-    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.'
+    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.',
+    ticketClosingMessage: {
+      enabled: false,
+    }
   },
   //  Application Tickets
   {
@@ -57,7 +77,9 @@ const TicketData: Ticket[] = [
     type: 'APPLICATION',
     channelId: '-',
     loggingChannel: '1058142184358027314',
-    description: 'Please select the relevant category and complete the format in as much detail as you can, to submit your application to our recruitment team.'
+    description: 'Please select the relevant category and complete the format in as much detail as you can, to submit your application to our recruitment team.',
+    acceptMessage: 'Thank you for your application, we will be in touch shortly.',
+    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more staff at this time.'
   },
   {
     id: 'apply-for-builder',
@@ -65,7 +87,9 @@ const TicketData: Ticket[] = [
     type: 'APPLICATION',
     channelId: '-',
     loggingChannel: '1058142184358027314',
-    description: 'Please select the relevant category and complete the format in as much detail as you can, to submit your application to our recruitment team.'
+    description: 'Please select the relevant category and complete the format in as much detail as you can, to submit your application to our recruitment team.',
+    acceptMessage: 'Thank you for your application, we will be in touch shortly.',
+    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more builders at this time.'
   },
   {
     id: 'apply-for-content-creator',
@@ -73,7 +97,9 @@ const TicketData: Ticket[] = [
     type: 'APPLICATION',
     channelId: '-',
     loggingChannel: '1058142184358027314',
-    description: 'Please select the relevant category and complete the format in as much detail as you can, to submit your application to our recruitment team.'
+    description: 'Please select the relevant category and complete the format in as much detail as you can, to submit your application to our recruitment team.',
+    acceptMessage: 'Thank you for your application, we will be in touch shortly.',
+    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more content creators at this time.'
   },
   {
     id: 'apply-for-beta-tester',
@@ -81,7 +107,9 @@ const TicketData: Ticket[] = [
     type: 'APPLICATION',
     channelId: '-',
     loggingChannel: '1058142184358027314',
-    description: 'Want to be an Official Beta Tester for our gamemodes? Please complete the format as to why we should choose you! and submit your application to our development team.'
+    description: 'Want to be an Official Beta Tester for our gamemodes? Please complete the format as to why we should choose you! and submit your application to our development team.',
+    acceptMessage: 'Thank you for your application, we will be in touch shortly.',
+    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more beta testers at this time.'
   }
 ];
 
