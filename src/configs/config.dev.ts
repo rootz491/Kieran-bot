@@ -14,6 +14,3 @@ export default {
     INFO: '#0000ff'
   }
 };
-
-
-

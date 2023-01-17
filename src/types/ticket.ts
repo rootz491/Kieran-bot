@@ -4,13 +4,13 @@ interface BaseTicket {
   id: string;
   name: string;
   type: TicketType;
-  description: string;
   loggingChannel: string;
 }
 
 interface ChatTicket extends BaseTicket {
   type: 'CHAT';
   categoryId: string;
+  description: string;
   ticketClosingMessage: TicketClosingMessage;
 }
 
@@ -37,5 +37,7 @@ interface TicketClosingMessageDisabled {
 
 export interface TicketMenu {
   type: TicketType;
+  title: string;
   description: string;
+  embedColor?: string;
 }
