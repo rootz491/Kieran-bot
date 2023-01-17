@@ -1,4 +1,4 @@
-import { Ticket } from '../types/ticket';
+import { Ticket, TicketMenu } from '../types/ticket';
 
 const TicketData: Ticket[] = [
   //  Chat Tickets
@@ -8,7 +8,7 @@ const TicketData: Ticket[] = [
     type: 'CHAT',
     categoryId: '1024085417299017828',
     loggingChannel: '1039619114576117760',
-    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.',
+    description: '',
     ticketClosingMessage: {
       enabled: true,
       title: 'Ticket Closed',
@@ -21,7 +21,7 @@ const TicketData: Ticket[] = [
     type: 'CHAT',
     categoryId: '1024085579106885763',
     loggingChannel: '1039619114576117760',
-    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.',
+    description: '',
     ticketClosingMessage: {
       enabled: false,
     }
@@ -32,7 +32,7 @@ const TicketData: Ticket[] = [
     type: 'CHAT',
     categoryId: '1039862828280074260',
     loggingChannel: '1039619114576117760',
-    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.',
+    description: '',
     ticketClosingMessage: {
       enabled: false,
     }
@@ -43,7 +43,7 @@ const TicketData: Ticket[] = [
     type: 'CHAT',
     categoryId: '1024085500736315432',
     loggingChannel: '1058142239714451497',
-    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.',
+    description: '',
     ticketClosingMessage: {
       enabled: false,
     }
@@ -54,7 +54,7 @@ const TicketData: Ticket[] = [
     type: 'CHAT',
     categoryId: '1024085786708164628',
     loggingChannel: '1058142239714451497',
-    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.',
+    description: '',
     ticketClosingMessage: {
       enabled: false,
     }
@@ -65,7 +65,7 @@ const TicketData: Ticket[] = [
     type: 'CHAT',
     categoryId: '1024085914554748938',
     loggingChannel: '1058142239714451497',
-    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.',
+    description: '',
     ticketClosingMessage: {
       enabled: false,
     }
@@ -104,7 +104,7 @@ const TicketData: Ticket[] = [
   {
     id: 'apply-for-beta-tester',
     name: 'Apply for Beta Tester',
-    type: 'APPLICATION',
+    type: 'TEST-APPLICATION',
     channelId: '-',
     loggingChannel: '1058142184358027314',
     description: 'Want to be an Official Beta Tester for our gamemodes? Please complete the format as to why we should choose you! and submit your application to our development team.',
@@ -112,5 +112,20 @@ const TicketData: Ticket[] = [
     declineMessage: 'Thank you for your application, unfortunately we are not looking for any more beta testers at this time.'
   }
 ];
+
+export const TicketMenuData: TicketMenu[] = [
+  {
+    type: 'CHAT',
+    description: 'Please select the relevant category and complete the format in as much detail as you can, to receive your support from our staff team.',
+  },
+  {
+    type: 'APPLICATION',
+    description: 'Please select the relevant category and complete the format in as much detail as you can, to submit your application to our recruitment team.'
+  },
+  {
+    type: 'TEST-APPLICATION',
+    description: 'Want to be an Official Beta Tester for our gamemodes? Please complete the format as to why we should choose you! and submit your application to our development team.'
+  }
+]
 
 export default TicketData;

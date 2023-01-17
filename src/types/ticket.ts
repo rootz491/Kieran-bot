@@ -15,13 +15,13 @@ interface ChatTicket extends BaseTicket {
 }
 
 interface ApplicationTicket extends BaseTicket {
-  type: 'APPLICATION';
+  type: 'APPLICATION' | 'TEST-APPLICATION';
   channelId: string;
   acceptMessage: string;
   declineMessage: string;
 }
 
-export type TicketType = 'CHAT' | 'APPLICATION';
+export type TicketType = 'CHAT' | 'APPLICATION' | 'TEST-APPLICATION';
 
 type TicketClosingMessage = TicketClosingMessageEnabled | TicketClosingMessageDisabled;
 
@@ -33,4 +33,9 @@ interface TicketClosingMessageEnabled {
 
 interface TicketClosingMessageDisabled {
   enabled: false;
+}
+
+export interface TicketMenu {
+  type: TicketType;
+  description: string;
 }
