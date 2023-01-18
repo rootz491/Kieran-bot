@@ -89,12 +89,17 @@ const buttonHandler: ButtonHandler = {
                 }
 
                 await interaction.message.edit({
+                    content: `Application has been ${interaction.customId.startsWith('accept') ? '**Accepted**' : '**Denied**'} by ${interaction.user}!`,
                     components: []
                 })
 
-                interaction.editReply({
+                await interaction.editReply({
                     content: 'Application has been processed! Member has been notified.'
                 })
+
+                setTimeout(async () => {
+                    await interaction.deleteReply();
+                }, 5000);
             }
         } catch (error) {
             console.log(error);
