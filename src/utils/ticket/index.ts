@@ -4,7 +4,6 @@ import {
   TextChannel,
   AttachmentBuilder,
   Message,
-  User
 } from 'discord.js';
 import { FetchMessageOptions } from '../../types/message';
 
@@ -19,8 +18,6 @@ export const closeTicket = async (ticketChanneId: string, reason: string, loggin
     console.log('Logging channel not found!');
     return false;
   }
-
-  console.log('Closing ticket...');
 
   await sendTranscript(ticketChannel, reason, loggingChannel, async () => {
   await ticketChannel
@@ -38,9 +35,6 @@ export const sendTranscript = async (
   loggingChannel: TextChannel,
   callback: () => Promise<void>
 ) => {
-
-  console.log('Sending transcript...');
-  
 
   const messages = await fetchMessages(ticketChannel, { reverseArray: true });
   if (!messages.length) return;
@@ -101,13 +95,6 @@ export const sendTranscript = async (
     .catch((_) => {
       console.log('Could not send transcript to logging channel!');
     });
-
-  // user
-  //   .send({
-  //     embeds: [embed],
-  //     files: [transcript]
-  //   })
-  //   .catch((_) => null);
 
 };
 

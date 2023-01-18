@@ -1,4 +1,4 @@
-import { ButtonInteraction, TextChannel } from "discord.js";
+import { ButtonInteraction, GuildMember, TextChannel } from "discord.js";
 import { bot } from "../..";
 import { ButtonHandler } from "../../types/handlers";
 import { closeTicket } from "../../utils/ticket";
@@ -10,6 +10,16 @@ const buttonHandler: ButtonHandler = {
 
     'resolve': async (interaction: ButtonInteraction) => {
         try {
+            // check role if user is admin or staff
+            if (
+                (interaction.member as GuildMember).roles.cache.find(
+                    (role) => role.id === bot.config.ROLES.ADMIN_ROLE_ID || role.id === bot.config.ROLES.STAFF_ROLE_ID
+                ) == null
+            ) {
+                await interaction.reply('You do not have permission to resolve this ticket!');
+                return;
+            }
+
             await interaction.deferReply({
                 ephemeral: true
             })

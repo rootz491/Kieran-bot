@@ -17,4 +17,6 @@ export default {
     WARNING: '#ffff00',
     INFO: '#0000ff'
   },
+  MAX_TICKET_PER_USER: 3,
+  MAX_TICKETS: 10,
 };

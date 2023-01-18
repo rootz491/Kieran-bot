@@ -2,7 +2,7 @@ import { ActionRowBuilder, ModalBuilder, StringSelectMenuInteraction, TextInputB
 import { bot } from "../..";
 import { SelectMenuHandler } from "../../types/handlers";
 import { TicketType } from "../../types/ticket";
-import { createTicket } from "../../utils/ticket/create";
+import { createTicket, maxTicketperUserReached, isTicketAlreadyOpened, maxTicketReached, maxTicketPerCategoryReached } from "../../utils/ticket/create";
 
 const selectMenuHandler: SelectMenuHandler = {
     'test': async (interaction: StringSelectMenuInteraction) => {
@@ -18,6 +18,45 @@ const selectMenuHandler: SelectMenuHandler = {
         const ticket = bot.ticketData.find(ticket => ticket.type === ticketType && ticket.id === value);
         
         if (ticket) {
+            //  check if max tickets reached
+            if ((await maxTicketReached(await bot.getMainGuild())) === true) {
+                await interaction.reply({
+                    content: 'Maximum amount of tickets reached. Please try again later.',
+                    ephemeral: true
+                });
+                return;
+            }
+
+
+            //  check if user has already created a ticket of this type max number of times
+            if ((await maxTicketPerCategoryReached(await bot.getMainGuild(), ticket.id)) === true) {
+                await interaction.reply({
+                    content: 'Maximum amount of tickets of this type reached. Please try again in .',
+                    ephemeral: true
+                });
+                return;
+            }
+
+            //  check max tickets per user
+            if ((await maxTicketperUserReached(await bot.getMainGuild(), interaction.user.tag)) === true) {
+                await interaction.reply({
+                    content:
+                        `You have reached the maximum amount of tickets you can create (${bot.config.MAX_TICKET_PER_USER})\nPlease close one of your tickets before creating a new one.`,
+                    ephemeral: true
+                });
+                return;
+            }
+
+            if ((await isTicketAlreadyOpened(await bot.getMainGuild(), interaction.user.tag, ticket.id)) === true) {
+                await interaction.reply({
+                    content: 'You already have a ticket of this type open. Please close it before creating a new one.',
+                    ephemeral: true
+                });
+                return;
+            }
+
+
+
             const modal = new ModalBuilder()
                 .setCustomId("ticket-description")
                 .setTitle(ticket.name)
@@ -44,10 +83,17 @@ const selectMenuHandler: SelectMenuHandler = {
             console.error(error)
             return null
         })
-
-            if (submittedInteraction) {
+            
+            //  handle collector end event
+            if (!submittedInteraction) {
+                await interaction.reply({
+                    content: "Ticket creation cancelled",
+                    ephemeral: true,
+                });
+                return;
+            } else {
                 const ticketDescription = submittedInteraction.fields.getTextInputValue("description");
-                console.log(ticketDescription);
+
                 const ticketRes = await createTicket(
                     submittedInteraction,
                     ticketDescription,

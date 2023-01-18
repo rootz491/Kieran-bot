@@ -10,7 +10,8 @@ import {
   OverwriteType,
   PermissionFlagsBits,
   ColorResolvable,
-  ChannelType
+  ChannelType,
+  Message
 } from 'discord.js';
 import { bot } from '../..';
 import { Ticket } from '../../types/ticket';
@@ -69,7 +70,7 @@ export const createTicket = async (
       );
   
     const ticketInitEmbed = new EmbedBuilder()
-      .setTitle('Ticket')
+      .setTitle(ticket.name)
       .setColor(bot.config.COLORS.MAIN as ColorResolvable)
       .setDescription(
         ticket.description + '\n\n**Description:** \n' + description
@@ -91,11 +92,15 @@ export const createTicket = async (
         )
     );
     //  ping admin & player who initiated order
-    interaction.reply({
+    await interaction.reply({
       embeds: [confirmationEmbed],
       components: [linkRow],
       ephemeral: true
     });
+
+    setTimeout(() => {
+      interaction.deleteReply().catch((err) => console.log(err));
+    }, 2000);
 
     return {
       success: true,
@@ -137,10 +142,14 @@ export const createTicket = async (
       components: [row]
     });
 
-    interaction.reply({
+    await interaction.reply({
       content: 'Application has been sent! Please wait for a staff member to review it.',
       ephemeral: true
     });
+
+    setTimeout(() => {
+      interaction.deleteReply().catch((err) => console.log(err));
+    }, 2000);
 
     return {
       success: true,
@@ -148,24 +157,65 @@ export const createTicket = async (
   }
 };
 
-export const getOpenedTicketNumber = async (
+//  check if user has reached max ticket limit
+export const maxTicketperUserReached = async (
   guild: Guild,
   username: string
-): Promise<number> => {
+): Promise<boolean> => {
   let i = 0;
   for (let channel of guild.channels.cache.values()) {
     channel = channel as TextChannel;
     if (channel.name === `ticket-${username.split('#').join('')}`) i++;
   }
-  return i;
+  if (i >= bot.config.MAX_TICKET_PER_USER) {
+    return true;
+  } else {
+    return false;
+  }
 };
 
-export const maxTicketReached = async (guild: Guild, ticketId: string) => {
+//  check if ticket is already opened for this user in this category
+export const isTicketAlreadyOpened = async (
+  guild: Guild,
+  username: string,
+  ticketId: string
+): Promise<boolean> => {
+  console.log(`ticket-${username.split('#').join('')}`);
+
+  for (let channel of guild.channels.cache.values()) {
+    channel = channel as TextChannel;
+    if (channel.name === `ticket-${username.split('#').join('')}`) {
+      
+      const channelTicketId = channel.topic?.split('|')[3].trim();
+      console.log(channelTicketId);
+      if (channelTicketId === ticketId) {
+        return true;
+      }
+    }
+  }
+  return false;
+};
+
+//  check if max tickets per category is reached
+export const maxTicketPerCategoryReached = async (guild: Guild, ticketId: string) => {
   const maxTickets = bot.ticketData.find((ticket) => ticket.id === ticketId)?.maxTickets;
   let count = 0;
   for (let channel of guild.channels.cache.values()) {
     channel = channel as TextChannel;
-    if (channel.name.startsWith('order-')) count++;
+    if (channel.name.startsWith('ticket-')) count++;
+  }
+  if (count === maxTickets ?? 0)
+    return true;
+  else return false;
+};
+
+//  check if max tickets per category is reached
+export const maxTicketReached = async (guild: Guild) => {
+  const maxTickets = bot.config.MAX_TICKETS
+  let count = 0;
+  for (let channel of guild.channels.cache.values()) {
+    channel = channel as TextChannel;
+    if (channel.name.startsWith('ticket-')) count++;
   }
   if (count === maxTickets ?? 0)
     return true;

@@ -7,8 +7,8 @@ export default {
   },
   CLIENT_ID: '1008558581513191504',
   ROLES: {
-    STAFF_ROLE_ID: '1020918716684308572', //  TODO update this
-    ADMIN_ROLE_ID: '999859062646771874' //  TODO update this
+    STAFF_ROLE_ID: '1020918716684308572',
+    ADMIN_ROLE_ID: '999859062646771874'
   },
   COLORS: {
     MAIN: '#00ff00',
@@ -17,4 +17,6 @@ export default {
     WARNING: '#ffff00',
     INFO: '#0000ff'
   },
+  MAX_TICKET_PER_USER: 3,
+  MAX_TICKETS: 10,
 };
