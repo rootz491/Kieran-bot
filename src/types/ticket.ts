@@ -4,8 +4,6 @@ interface BaseTicket {
   id: string;
   name: string;
   type: TicketType;
-  loggingChannel: string;
-  maxTickets: number;
 }
 
 interface ChatTicket extends BaseTicket {
@@ -13,6 +11,8 @@ interface ChatTicket extends BaseTicket {
   categoryId: string;
   description: string;
   ticketClosingMessage: TicketClosingMessage;
+  loggingChannel: string;
+  maxTickets: number;
 }
 
 interface ApplicationTicket extends BaseTicket {

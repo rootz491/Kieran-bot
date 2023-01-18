@@ -36,13 +36,18 @@ const buttonHandler: ButtonHandler = {
                 await interaction.reply('Could not find ticket! Please contact admin.');
                 return;
             }
-    
-            const ticketRes = await closeTicket(interaction.channelId, 'Ticket resolved!', ticket.loggingChannel);
-            if (ticketRes && ticketRes === true) {
-                console.log('Ticket resolved!');
+
+            if (ticket.type === 'CHAT') {
+                const ticketRes = await closeTicket(interaction.channelId, ticket.loggingChannel, interaction.user.id);
+                if (ticketRes && ticketRes === true) {
+                    console.log('Ticket resolved!');
+                } else {
+                    await interaction.editReply('Ticket could not be resolved! Please contact developer.');
+                }
             } else {
-                await interaction.editReply('Ticket could not be resolved! Please contact developer.');
+                await interaction.editReply(`This button [${interaction.customId}] is not available for this ticket type!`);
             }
+    
         } catch (error) {
             console.log(error);
         }
@@ -50,16 +55,15 @@ const buttonHandler: ButtonHandler = {
 
     'accept-deny': async (interaction: ButtonInteraction) => {
         try {
-            interaction.deferReply({
+            await interaction.deferReply({
                 ephemeral: true
             })
 
-            const userId = interaction.customId.split('_')[1];
-            const member = interaction.guild?.members.cache.get(userId);
+            const userId = interaction.customId.split('_')[1].trim();
+            const member = (await bot.getMainGuild())?.members.cache.get(userId);
             if (member == null) {
-                await interaction.reply({
+                await interaction.editReply({
                     content: 'Could not find member in server! Please contact admin.',
-                    ephemeral: true
                 });
                 return;
             }
@@ -67,9 +71,8 @@ const buttonHandler: ButtonHandler = {
             const ticketId = interaction.customId.split('_')[2];
             const ticket = bot.ticketData.find(ticket => ticket.id === ticketId);
             if (ticket == null) {
-                await interaction.reply({
+                await interaction.editReply({
                     content: 'Could not find ticket! Please contact admin.',
-                    ephemeral: true
                 });
                 return;
             }
@@ -85,14 +88,9 @@ const buttonHandler: ButtonHandler = {
                     })
                 }
 
-                // remove application from application-channel and add to application-logging-channel
-                const applicationEmbed = interaction.message.embeds[0];
-                const loggingChannel = (await bot.getManagementGuild()).channels.cache.get(ticket.loggingChannel) as TextChannel;
-                await loggingChannel.send({
-                    embeds: [applicationEmbed],
-                    content: `Application by ${member.user.tag} has been ${interaction.customId.startsWith('accept') ? '**accepted**' : '**denied**'}!`
-                });
-                await interaction.message.delete();
+                await interaction.message.edit({
+                    components: []
+                })
 
                 interaction.editReply({
                     content: 'Application has been processed! Member has been notified.'

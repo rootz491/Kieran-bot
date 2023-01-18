@@ -4,10 +4,12 @@ import {
   TextChannel,
   AttachmentBuilder,
   Message,
+  User,
 } from 'discord.js';
 import { FetchMessageOptions } from '../../types/message';
+import { Ticket } from '../../types/ticket';
 
-export const closeTicket = async (ticketChanneId: string, reason: string, loggingChannelId: string) => {
+export const closeTicket = async (ticketChanneId: string, loggingChannelId: string, ticketClosedBy: string) => {
   const ticketChannel = (await bot.getMainGuild()).channels.cache.get(ticketChanneId) as TextChannel;
   const loggingChannel = (await bot.getManagementGuild()).channels.cache.get(loggingChannelId) as TextChannel;
 
@@ -19,7 +21,14 @@ export const closeTicket = async (ticketChanneId: string, reason: string, loggin
     return false;
   }
 
-  await sendTranscript(ticketChannel, reason, loggingChannel, async () => {
+  const ticketId = ticketChannel.topic?.split('|')[3].trim();
+  const ticket = bot.ticketData.find((ticket) => ticket.id === ticketId);
+  if (ticket == null) {
+    console.log('Ticket not found!');
+    return false;
+  }
+
+  await sendTranscript(ticketChannel, loggingChannel, ticket, ticketClosedBy, async () => {
   await ticketChannel
     .delete()
     .then(() => true)
@@ -31,8 +40,9 @@ export const closeTicket = async (ticketChanneId: string, reason: string, loggin
 
 export const sendTranscript = async (
   ticketChannel: TextChannel,
-  reason: string,
   loggingChannel: TextChannel,
+  ticket: Ticket,
+  ticketClosedBy: string,
   callback: () => Promise<void>
 ) => {
 
@@ -57,32 +67,16 @@ export const sendTranscript = async (
     }
   );
 
-  const ticketCreatorTag = ticketChannel.topic?.split("'").shift();
+  const ticketCreatorID = ticketChannel.topic?.split("|")[1].trim(); 
   const embed = new EmbedBuilder()
     .setColor('#3459d3')
-    .setTitle(`Ticket Closed`)
+    .setTitle(ticket.name)
     .setDescription(
       [
-        `${ticketCreatorTag}'s ticket #${ticketChannel.name} (${ticketChannel.id}) has been closed.`,
-        'A transcript is available above.'
+        'Ticket Created by: <@' + ticketCreatorID + '>',
+        'Ticket Closed by: <@' + ticketClosedBy + '>',
       ].join('\n')
     )
-    .addFields([
-      {
-        name: 'Ticked Opened On',
-        value: `${ticketChannel.createdAt}`,
-        inline: true
-      },
-      {
-        name: 'Ticked Closed On',
-        value: `${new Date()}`,
-        inline: true
-      },
-      {
-        name: 'Reason',
-        value: reason
-      }
-    ])
     .setTimestamp();
 
   loggingChannel

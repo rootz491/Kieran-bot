@@ -106,7 +106,7 @@ export const createTicket = async (
       success: true,
     };
   } else if (ticket.type === 'APPLICATION' || ticket.type === 'TEST-APPLICATION') {
-    const ticketChannel = await interaction.guild!.channels.fetch(ticket.channelId);
+    const ticketChannel = await (await bot.getManagementGuild()).channels.fetch(ticket.channelId);
     if (!ticketChannel) return {
       success: false,
       error: 'Ticket channel not found'
@@ -132,7 +132,7 @@ export const createTicket = async (
       .setTitle(ticket.name)
       .setColor(bot.config.COLORS.MAIN as ColorResolvable)
       .setDescription(`
-        **Username:** ${interaction.user.tag}
+        **Username:** <@${userId}>
         **Description:** \n${description}
       `)
       .setTimestamp();
@@ -143,13 +143,13 @@ export const createTicket = async (
     });
 
     await interaction.reply({
-      content: 'Application has been sent! Please wait for a staff member to review it.',
+      content: 'Your application has been sent!',
       ephemeral: true
     });
 
     setTimeout(() => {
       interaction.deleteReply().catch((err) => console.log(err));
-    }, 2000);
+    }, 5000);
 
     return {
       success: true,
@@ -180,14 +180,11 @@ export const isTicketAlreadyOpened = async (
   username: string,
   ticketId: string
 ): Promise<boolean> => {
-  console.log(`ticket-${username.split('#').join('')}`);
 
   for (let channel of guild.channels.cache.values()) {
     channel = channel as TextChannel;
     if (channel.name === `ticket-${username.split('#').join('')}`) {
-      
       const channelTicketId = channel.topic?.split('|')[3].trim();
-      console.log(channelTicketId);
       if (channelTicketId === ticketId) {
         return true;
       }
@@ -198,7 +195,9 @@ export const isTicketAlreadyOpened = async (
 
 //  check if max tickets per category is reached
 export const maxTicketPerCategoryReached = async (guild: Guild, ticketId: string) => {
-  const maxTickets = bot.ticketData.find((ticket) => ticket.id === ticketId)?.maxTickets;
+  const ticket = bot.ticketData.find((ticket) => ticket.id === ticketId);
+  if (ticket == null || ticket.type !== 'CHAT') return false;
+  const maxTickets = ticket.maxTickets;
   let count = 0;
   for (let channel of guild.channels.cache.values()) {
     channel = channel as TextChannel;

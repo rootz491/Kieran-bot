@@ -81,41 +81,33 @@ export const TicketData: Ticket[] = [
     id: 'apply-for-staff',
     name: 'Apply for Staff',
     type: 'APPLICATION',
-    channelId: '1064878004649611336',
-    loggingChannel: '1064877260693315684',
+    channelId: '1065267606552051812',
     acceptMessage: 'Thank you for your application, we will be in touch shortly.',
-    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more staff at this time.',
-    maxTickets: 20
+    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more staff at this time.'
   },
   {
     id: 'apply-for-builder',
     name: 'Apply for Builder',
     type: 'APPLICATION',
-    channelId: '1064878004649611336',
-    loggingChannel: '1064877260693315684',
+    channelId: '1065267606552051812',
     acceptMessage: 'Thank you for your application, we will be in touch shortly.',
-    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more builders at this time.',
-    maxTickets: 20
+    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more builders at this time.'
   },
   {
     id: 'apply-for-content-creator',
     name: 'Apply for Content Creator',
     type: 'APPLICATION',
-    channelId: '1064878004649611336',
-    loggingChannel: '1064877260693315684',
+    channelId: '1065267606552051812',
     acceptMessage: 'Thank you for your application, we will be in touch shortly.',
-    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more content creators at this time.',
-    maxTickets: 20
+    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more content creators at this time.'
   },
   {
     id: 'apply-for-beta-tester',
     name: 'Apply for Beta Tester',
     type: 'TEST-APPLICATION',
-    channelId: '1064878004649611336',
-    loggingChannel: '1064877260693315684',
+    channelId: '1065267606552051812',
     acceptMessage: 'Thank you for your application, we will be in touch shortly.',
-    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more beta testers at this time.',
-    maxTickets: 20
+    declineMessage: 'Thank you for your application, unfortunately we are not looking for any more beta testers at this time.'
   }
 ];
 
