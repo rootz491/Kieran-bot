@@ -68,20 +68,13 @@ export const sendTranscript = async (
   );
 
   const ticketCreatorID = ticketChannel.topic?.split("|")[1].trim(); 
-  const embed = new EmbedBuilder()
-    .setColor('#3459d3')
-    .setTitle(ticket.name)
-    .setDescription(
-      [
-        'Ticket Created by: <@' + ticketCreatorID + '>',
-        'Ticket Closed by: <@' + ticketClosedBy + '>',
-      ].join('\n')
-    )
-    .setTimestamp();
-
   loggingChannel
     .send({
-      embeds: [embed],
+      content: [
+        `**${ticket.name}**`,
+        'Ticket Created by: <@' + ticketCreatorID + '>',
+        'Ticket Closed by: <@' + ticketClosedBy + '>',
+      ].join('\n'),
       files: [transcript]
     })
     .then(() => console.log('Transcript sent to logging channel!'))
