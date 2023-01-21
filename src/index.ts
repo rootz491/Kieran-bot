@@ -1,4 +1,4 @@
-import { Client, GatewayIntentBits } from 'discord.js';
+import { Client, GatewayIntentBits, Partials } from 'discord.js';
 import Bot from './lib/Bot';
 
 export const bot = new Bot(
@@ -9,7 +9,12 @@ export const bot = new Bot(
       GatewayIntentBits.MessageContent,
       GatewayIntentBits.GuildMembers,
       GatewayIntentBits.GuildMessageReactions,
-      GatewayIntentBits.DirectMessages
-    ]
+      GatewayIntentBits.DirectMessages,
+    ],
+    partials: [
+      Partials.Message,
+      Partials.Channel,
+      Partials.Reaction,
+    ],
   })
 );

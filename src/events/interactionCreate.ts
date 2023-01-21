@@ -1,5 +1,6 @@
 import {
   CommandInteraction,
+  Events,
   Interaction,
 } from 'discord.js';
 import { bot } from '..';
@@ -8,7 +9,7 @@ import modalHandler from '../handlers/modals';
 import selectMenuHandler from '../handlers/selectMenu';
 
 export default {
-  name: 'interactionCreate',
+  name: Events.InteractionCreate,
   once: false,
   async execute(interaction: Interaction) {
     try {
