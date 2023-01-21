@@ -11,6 +11,7 @@ export interface Embed {
   fields: Field[];
   footer: Footer;
   timestamp: boolean;
+  image: string;
 }
 
 export interface Field {

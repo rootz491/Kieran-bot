@@ -34,6 +34,10 @@ export default function embedBuilder(commandName: string) {
         embed.addFields(EmbedData.embed.fields.map((field) => field));
       }
 
+      if (EmbedData.embed.image !== '') {
+        embed.setImage(EmbedData.embed.image ?? '');
+      }
+
       return {
         success: true,
         embed: embed
