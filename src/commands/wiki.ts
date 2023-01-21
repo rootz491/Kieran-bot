@@ -1,14 +1,14 @@
-import { ColorResolvable, CommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
 import { bot } from '..';
 import embedBuilder from '../utils/EmbedBuilder';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('welcome')
-    .setDescription('Send a welcome message to the user'),
+    .setName('wiki')
+    .setDescription('Send a Wiki message to the user'),
   async execute(interaction: CommandInteraction) {
     try {
-      const embedRes = embedBuilder('welcome');
+      const embedRes = embedBuilder('wiki');
 
       if (embedRes.success === false) {
         await interaction.reply({
@@ -17,7 +17,7 @@ export default {
         });
         return;
       }
-
+  
       if (embedRes.embed != null) {
 
         await interaction.channel?.send({
@@ -41,6 +41,8 @@ export default {
         });
         return;
       }
+
+
     } catch (error) {
       console.error(error);
       await interaction.reply({

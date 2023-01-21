@@ -1,6 +1,6 @@
 // TODO create all commands whose configs are available in the command config file
-import { ColorResolvable, CommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
-import { bot } from '..';
+import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
+import embedBuilder from '../utils/EmbedBuilder';
 
 export default {
   data: new SlashCommandBuilder()
@@ -8,43 +8,25 @@ export default {
     .setDescription('Send a Rules message to the user'),
   async execute(interaction: CommandInteraction) {
     try {
-      const rulesEmbedData = bot.commandData.find(
-        (command) => command.name === 'rules'
-      );
-  
-      if (rulesEmbedData) {
-        const embed = new EmbedBuilder()
-          .setTitle(rulesEmbedData.embed.title)
-          .setDescription(rulesEmbedData.embed.description ?? '')
-          .setColor(rulesEmbedData.embed.color as ColorResolvable ?? 'RANDOM');
-  
-        if (rulesEmbedData.embed.footer.text !== '') {
-          embed.setFooter({
-            text: rulesEmbedData.embed.footer?.text ?? '-',
-          });
-        }
-  
-        if (rulesEmbedData.embed.footer.icon_url !== '' && rulesEmbedData.embed.footer.text !== '') {
-          embed.setFooter({
-            iconURL: rulesEmbedData.embed.footer.icon_url,
-            text: rulesEmbedData.embed.footer.text
-          });
-        }
-  
-        if (rulesEmbedData.embed.timestamp) {
-          embed.setTimestamp();
-        }
-  
-        if (rulesEmbedData.embed.fields?.length > 0) {
-          embed.addFields(rulesEmbedData.embed.fields.map((field) => field));
-        }
-  
+      
+      const embedRes = embedBuilder('rules');
+
+      if (embedRes.success === false) {
+        await interaction.reply({
+          content: embedRes.error,
+          ephemeral: true,
+        });
+        return;
+      }
+
+      if (embedRes.embed != null) {
+
         await interaction.channel?.send({
-          embeds: [embed],
+          embeds: [embedRes.embed],
         });
   
         await interaction.reply({
-          content: 'Welcome message sent!',
+          content: 'Embed sent!',
           ephemeral: true,
         });
   
@@ -60,6 +42,8 @@ export default {
         });
         return;
       }
+
+
     } catch (error) {
       console.error(error);
       await interaction.reply({
