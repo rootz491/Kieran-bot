@@ -38,6 +38,10 @@ export default function embedBuilder(commandName: string) {
         embed.setImage(EmbedData.embed.image ?? '');
       }
 
+      if (EmbedData.embed.url !== '') {
+        embed.setURL(EmbedData.embed.url ?? '');
+      }
+
       return {
         success: true,
         embed: embed

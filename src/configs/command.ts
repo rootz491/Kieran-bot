@@ -26,7 +26,8 @@ export const CommandData: Command[] = [
                 icon_url: "",
             },
             timestamp: true,
-            image: ""
+            image: "",
+            url: ""
         },
     },
     {
@@ -54,7 +55,8 @@ export const CommandData: Command[] = [
                 icon_url: "",
             },
             timestamp: true,
-            image: "https://static.wikia.nocookie.net/peaky-blinders/images/8/8e/Tommys3.jpg/revision/latest?cb=20190715140230"
+            image: "https://static.wikia.nocookie.net/peaky-blinders/images/8/8e/Tommys3.jpg/revision/latest?cb=20190715140230",
+            url: "https://www.google.com"
         }
     },
     {
@@ -82,7 +84,8 @@ export const CommandData: Command[] = [
                 icon_url: "",
             },
             timestamp: true,
-            image: ""
+            image: "",
+            url: ""
         }
     },
     {
@@ -114,7 +117,8 @@ export const CommandData: Command[] = [
                 icon_url: "",
             },
             timestamp: true,
-            image: ""
+            image: "",
+            url: "https://www.google.com"
         },
         roles: [
             {

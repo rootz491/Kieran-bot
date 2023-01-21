@@ -12,6 +12,7 @@ export interface Embed {
   footer: Footer;
   timestamp: boolean;
   image: string;
+  url: string;
 }
 
 export interface Field {
