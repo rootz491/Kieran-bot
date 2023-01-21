@@ -86,23 +86,23 @@ export const CommandData: Command[] = [
         name: "roles",
         embed: {
             title: "Roles",
-            description: "Please select a role below to be notified of updates.\n\nJust click on buttons below to get the role.",
+            description: "Please select a role below to be notified of updates.\n\nJust click on role below to get the role.",
             color: '#00ff00',
             fields: [
                 {
-                    name: "Events",
+                    name: "Events 🎉",
                     value: "Get notified of upcoming events."
                 },
                 {
-                    name: "Media",
+                    name: "Media 📺",
                     value: "Get notified of new media."
                 },
                 {
-                    name: "ChangeLogs",
+                    name: "Change Logs 📝",
                     value: "Get notified of new changes."
                 },
                 {
-                    name: "Notices",
+                    name: "Notices 📢",
                     value: "Get notified of new notices."
                 }
             ],
@@ -115,19 +115,23 @@ export const CommandData: Command[] = [
         roles: [
             {
                 name: "Events",
-                id: "1064932373994680421"
+                id: "1064932373994680421",
+                emoji: "🎉"
             },
             {
                 name: "Media",
-                id: "1064932456760873081"
+                id: "1064932456760873081",
+                emoji: "📺"
             },
             {
                 name: "Change Logs",
-                id: "1064932493142278234"
+                id: "1064932493142278234",
+                emoji: "📝"
             },
             {
                 name: "Notices",
-                id: "1064932532254167181"
+                id: "1064932532254167181",
+                emoji: "📢"
             },
         ]
     }

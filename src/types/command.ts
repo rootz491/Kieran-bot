@@ -26,4 +26,5 @@ export interface Footer {
 export interface Role {
   name: string;
   id: string;
+  emoji: string;
 }

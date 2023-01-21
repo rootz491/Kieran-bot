@@ -4,8 +4,8 @@ import { bot } from "..";
 export default function embedBuilder(commandName: string) {
   try {
     const EmbedData = bot.commandData.find(
-          (command) => command.name === commandName
-        );
+      (command) => command.name === commandName
+    );
   
     if (EmbedData) {
       const embed = new EmbedBuilder()

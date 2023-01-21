@@ -1,14 +1,14 @@
-import { ColorResolvable, CommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
-import { bot } from '..';
+import { CommandInteraction, SlashCommandBuilder } from 'discord.js';
 import embedBuilder from '../utils/EmbedBuilder';
+import rolesHandler from '../utils/roleHandler';
 
 export default {
   data: new SlashCommandBuilder()
-    .setName('welcome')
-    .setDescription('Send a Welcome message to the user'),
+    .setName('roles')
+    .setDescription('Send a Roles message to the user'),
   async execute(interaction: CommandInteraction) {
     try {
-      const embedRes = embedBuilder('welcome');
+      const embedRes = embedBuilder('roles');
 
       if (embedRes.success === false) {
         await interaction.reply({
@@ -17,10 +17,10 @@ export default {
         });
         return;
       }
-
+  
       if (embedRes.embed != null) {
 
-        await interaction.channel?.send({
+        const msg = await interaction.channel?.send({
           embeds: [embedRes.embed],
         });
   
@@ -28,19 +28,20 @@ export default {
           content: 'Embed sent!',
           ephemeral: true,
         });
+
+        if (msg) rolesHandler(msg);
   
         setTimeout(() => {
           interaction.deleteReply();
         }, 4000);
-        return;
   
       } else {
         await interaction.reply({
           content: 'This command data is not available at the moment.',
           ephemeral: true,
         });
-        return;
       }
+
     } catch (error) {
       console.error(error);
       await interaction.reply({
