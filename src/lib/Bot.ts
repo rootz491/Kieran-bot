@@ -5,6 +5,7 @@ import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
 import config from '../configs/config.dev';
 import { TicketData, TicketMenuData } from '../configs/ticket.dev';
+import { CommandData } from '../configs/command';
 
 export default class Bot {
   public commands = new Collection<string, any>();
@@ -13,6 +14,7 @@ export default class Bot {
   public config = config;
   public ticketData = TicketData;
   public ticketMenuData = TicketMenuData;
+  public commandData = CommandData;
 
   constructor(public readonly client: Client) {
     this.client.login(config.TOKEN);

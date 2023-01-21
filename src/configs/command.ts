@@ -22,7 +22,7 @@ export const CommandData: Command[] = [
                 }
             ],
             footer: {
-                text: "Server Name",
+                text: "testing",
                 icon_url: "",
             },
             timestamp: true,

@@ -90,12 +90,7 @@ const selectMenuHandler: SelectMenuHandler = {
             })
     
                 //  handle collector end event
-                if (!submittedInteraction) {
-                    await interaction.editReply({
-                        content: "Ticket creation cancelled",
-                    });
-                    return;
-                } else {
+                if (submittedInteraction) {
                     const ticketDescription = submittedInteraction.fields.getTextInputValue("description");
     
                     const ticketRes = await createTicket(
