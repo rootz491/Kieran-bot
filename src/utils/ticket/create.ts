@@ -10,15 +10,14 @@ import {
   OverwriteType,
   PermissionFlagsBits,
   ColorResolvable,
-  ChannelType,
-  Message
+  ChannelType
 } from 'discord.js';
 import { bot } from '../..';
-import { Ticket } from '../../types/ticket';
+import { Ticket, TicketFormData } from '../../types/ticket';
 
 export const createTicket = async (
   interaction: ModalSubmitInteraction,
-  description: string,
+  data: TicketFormData[],
   ticket: Ticket,
   userId: string
 ) => {
@@ -73,7 +72,12 @@ export const createTicket = async (
       .setTitle(ticket.name)
       .setColor(bot.config.COLORS.MAIN as ColorResolvable)
       .setDescription(
-        ticket.description + '\n\n**Description:** \n' + description
+        ticket.description +
+          data
+            .map((field) => {
+              return `\n**${field.id}:** \n${field.text}`;
+            })
+            .join('')
       );
 
     //  send msg in ticket channel & pin it!
@@ -139,10 +143,12 @@ export const createTicket = async (
       .setTitle(ticket.name)
       .setColor(bot.config.COLORS.MAIN as ColorResolvable)
       .setDescription(
-        `
-        **Username:** <@${userId}>
-        **Description:** \n${description}
-      `
+        `**Username:** <@${userId}>` +
+          data
+            .map((field) => {
+              return `\n**${field.id}:** \n${field.text}`;
+            })
+            .join('')
       )
       .setTimestamp();
 

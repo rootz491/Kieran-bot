@@ -21,7 +21,10 @@ export default {
         const member = interaction.member;
         if (!member) return;
         const buttonId = interaction.customId;
-        if (buttonId.startsWith('resolve-')) {
+        // ticket select menu
+        if (buttonId.startsWith('ticket-')) {
+          buttonHandler['ticket'](interaction);
+        } else if (buttonId.startsWith('resolve-')) {
           buttonHandler['resolve'](interaction);
         } else if (
           buttonId.startsWith('accept_') ||
@@ -56,20 +59,14 @@ export default {
         const member = interaction.member;
         if (!member) return;
         const selectMenuId = interaction.customId;
-        // ticket select menu
-        if (selectMenuId.startsWith('ticket-')) {
-          selectMenuHandler['ticket'](interaction);
-        }
         // basic select menu
-        else {
-          const handler = selectMenuHandler[selectMenuId];
-          if (handler != null) handler(interaction);
-          else
-            interaction.reply({
-              content: `select menu [${selectMenuId}] is not yet implemented`,
-              ephemeral: true
-            });
-        }
+        const handler = selectMenuHandler[selectMenuId];
+        if (handler != null) handler(interaction);
+        else
+          interaction.reply({
+            content: `select menu [${selectMenuId}] is not yet implemented`,
+            ephemeral: true
+          });
       }
     } catch (error) {
       console.log(error);

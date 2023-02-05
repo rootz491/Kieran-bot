@@ -1,7 +1,16 @@
+import { ActionRowBuilder, ModalBuilder, TextInputBuilder } from 'discord.js';
 import { ButtonInteraction, GuildMember, TextChannel } from 'discord.js';
 import { bot } from '../..';
 import { ButtonHandler } from '../../types/handlers';
+import { TicketFormData, TicketType } from '../../types/ticket';
 import { closeTicket } from '../../utils/ticket';
+import {
+  createTicket,
+  isTicketAlreadyOpened,
+  maxTicketPerCategoryReached,
+  maxTicketperUserReached,
+  maxTicketReached
+} from '../../utils/ticket/create';
 
 const buttonHandler: ButtonHandler = {
   test: async (interaction: ButtonInteraction) => {
@@ -74,6 +83,7 @@ const buttonHandler: ButtonHandler = {
 
       const userId = interaction.customId.split('_')[1].trim();
       const member = (await bot.getMainGuild())?.members.cache.get(userId);
+
       if (member == null) {
         await interaction.editReply({
           content: 'Could not find member in server! Please contact admin.'
@@ -117,6 +127,145 @@ const buttonHandler: ButtonHandler = {
         setTimeout(async () => {
           await interaction.deleteReply();
         }, 5000);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  },
+
+  ticket: async (interaction: ButtonInteraction) => {
+    try {
+      const id = interaction.customId;
+      const ticketId = id
+        .split('-')
+        .filter((_, i) => i != 0)
+        .join('-') as string;
+
+      const ticket = bot.ticketData.find((ticket) => ticket.id === ticketId);
+
+      if (ticket) {
+        //  ticket check only applies to CHAT tickets
+        if (ticket.type === 'CHAT') {
+          //  check if max tickets reached
+          if ((await maxTicketReached(await bot.getMainGuild())) === true) {
+            await interaction.reply({
+              content:
+                'Maximum amount of tickets reached. Please try again later.',
+              ephemeral: true
+            });
+            return;
+          }
+
+          //  check if user has already created a ticket of this type max number of times
+          if (
+            (await maxTicketPerCategoryReached(
+              await bot.getMainGuild(),
+              ticket.id
+            )) === true
+          ) {
+            await interaction.reply({
+              content:
+                'Maximum amount of tickets of this type reached. Please try again in .',
+              ephemeral: true
+            });
+            return;
+          }
+
+          //  check max tickets per user
+          if (
+            (await maxTicketperUserReached(
+              await bot.getMainGuild(),
+              interaction.user.tag
+            )) === true
+          ) {
+            await interaction.reply({
+              content: `You have reached the maximum amount of tickets you can create (${bot.config.MAX_TICKET_PER_USER})\nPlease close one of your tickets before creating a new one.`,
+              ephemeral: true
+            });
+            return;
+          }
+
+          //  check if ticket is already opened for this user in this category
+          if (
+            (await isTicketAlreadyOpened(
+              await bot.getMainGuild(),
+              interaction.user.tag,
+              ticket.id
+            )) === true
+          ) {
+            await interaction.reply({
+              content:
+                'You already have a ticket of this type open. Please close it before creating a new one.',
+              ephemeral: true
+            });
+            return;
+          }
+        }
+
+        const modal = new ModalBuilder()
+          .setCustomId('ticket-description')
+          .setTitle(ticket.name)
+          .addComponents(
+            ticket.fields.map((field) => {
+              return new ActionRowBuilder<TextInputBuilder>().addComponents(
+                new TextInputBuilder()
+                  .setCustomId(field.id)
+                  .setLabel(field.name)
+                  .setPlaceholder(field.placeholder)
+                  .setStyle(field.type)
+                  .setMinLength(field.minLength)
+                  .setMaxLength(field.maxLength)
+                  .setRequired(field.required)
+              );
+            })
+          );
+
+        await interaction.showModal(modal);
+
+        const submittedInteraction = await interaction
+          .awaitModalSubmit({
+            time: 10 * 60000, // 10 minutes
+            filter: (k: any) => k.user.id === interaction.user.id
+          })
+          .catch((error: any) => {
+            console.error(error);
+            return null;
+          });
+
+        //  handle collector end event
+        if (submittedInteraction) {
+          const fields = ticket.fields.map((field) => field.id);
+          const ticketData: TicketFormData[] = fields.map((field) => {
+            return {
+              id: field,
+              text: submittedInteraction.fields.getTextInputValue(field)
+            };
+          });
+          // submittedInteraction.fields.getTextInputValue('description');
+
+          const ticketRes = await createTicket(
+            submittedInteraction,
+            ticketData,
+            ticket,
+            interaction.user.id
+          );
+
+          if (ticketRes && ticketRes.success) {
+            console.log('Ticket created successfully');
+          } else {
+            await interaction.reply({
+              content: `Ticket creation failed: ${JSON.stringify(
+                ticketRes ?? { error: 'Unknown error' }
+              )}`,
+              ephemeral: true
+            });
+          }
+        }
+      } else {
+        await interaction.reply({
+          content: `Ticket [${ticketId}] not found`,
+          ephemeral: true
+        });
       }
     } catch (error) {
       console.log(error);

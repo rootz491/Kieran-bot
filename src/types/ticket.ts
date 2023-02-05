@@ -1,9 +1,21 @@
+import { TextInputStyle } from 'discord.js';
+
 export type Ticket = ChatTicket | ApplicationTicket;
 
 interface BaseTicket {
   id: string;
   name: string;
   type: TicketType;
+
+  fields: {
+    id: string;
+    name: string;
+    placeholder: string;
+    type: TextInputStyle;
+    minLength: number;
+    maxLength: number;
+    required: boolean;
+  }[];
 }
 
 interface ChatTicket extends BaseTicket {
@@ -43,4 +55,9 @@ export interface TicketMenu {
   title: string;
   description: string;
   embedColor?: string;
+}
+
+export interface TicketFormData {
+  id: string;
+  text: string;
 }

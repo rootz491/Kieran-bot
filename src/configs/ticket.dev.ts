@@ -1,3 +1,4 @@
+import { TextInputStyle } from 'discord.js';
 import { Ticket, TicketMenu } from '../types/ticket';
 
 export const TicketData: Ticket[] = [
@@ -15,7 +16,27 @@ export const TicketData: Ticket[] = [
       description:
         'Your ticket has been closed. If you have any further questions, please open a new ticket.'
     },
-    maxTickets: 20
+    maxTickets: 20,
+    fields: [
+      {
+        id: 'query',
+        name: 'What is your question?',
+        placeholder: 'Please describe your question in detail.',
+        type: TextInputStyle.Paragraph,
+        minLength: 10,
+        maxLength: 300,
+        required: true
+      },
+      {
+        id: 'name',
+        name: 'What is your name?',
+        placeholder: 'Please enter your name.',
+        type: TextInputStyle.Short,
+        minLength: 1,
+        maxLength: 20,
+        required: true
+      }
+    ]
   },
   {
     id: 'contact-admin',
@@ -27,7 +48,18 @@ export const TicketData: Ticket[] = [
     ticketClosingMessage: {
       enabled: false
     },
-    maxTickets: 20
+    maxTickets: 20,
+    fields: [
+      {
+        id: 'query',
+        name: 'What is your question?',
+        placeholder: 'Please describe your question in detail.',
+        type: TextInputStyle.Paragraph,
+        minLength: 10,
+        maxLength: 300,
+        required: true
+      }
+    ]
   },
   {
     id: 'report-bug',
@@ -39,7 +71,18 @@ export const TicketData: Ticket[] = [
     ticketClosingMessage: {
       enabled: false
     },
-    maxTickets: 20
+    maxTickets: 20,
+    fields: [
+      {
+        id: 'query',
+        name: 'What is your question?',
+        placeholder: 'Please describe your question in detail.',
+        type: TextInputStyle.Paragraph,
+        minLength: 10,
+        maxLength: 300,
+        required: true
+      }
+    ]
   },
   {
     id: 'report-player',
@@ -51,7 +94,18 @@ export const TicketData: Ticket[] = [
     ticketClosingMessage: {
       enabled: false
     },
-    maxTickets: 20
+    maxTickets: 20,
+    fields: [
+      {
+        id: 'query',
+        name: 'What is your question?',
+        placeholder: 'Please describe your question in detail.',
+        type: TextInputStyle.Paragraph,
+        minLength: 10,
+        maxLength: 300,
+        required: true
+      }
+    ]
   },
   {
     id: 'appeal-punishment',
@@ -63,7 +117,18 @@ export const TicketData: Ticket[] = [
     ticketClosingMessage: {
       enabled: false
     },
-    maxTickets: 20
+    maxTickets: 20,
+    fields: [
+      {
+        id: 'query',
+        name: 'What is your question?',
+        placeholder: 'Please describe your question in detail.',
+        type: TextInputStyle.Paragraph,
+        minLength: 10,
+        maxLength: 300,
+        required: true
+      }
+    ]
   },
   {
     id: 'other-inquiries',
@@ -75,7 +140,27 @@ export const TicketData: Ticket[] = [
     ticketClosingMessage: {
       enabled: false
     },
-    maxTickets: 20
+    maxTickets: 20,
+    fields: [
+      {
+        id: 'query',
+        name: 'What is your question?',
+        placeholder: 'Please describe your question in detail.',
+        type: TextInputStyle.Paragraph,
+        minLength: 10,
+        maxLength: 300,
+        required: true
+      },
+      {
+        id: 'name',
+        name: 'What is your name?',
+        placeholder: 'Please enter your name.',
+        type: TextInputStyle.Short,
+        minLength: 1,
+        maxLength: 20,
+        required: true
+      }
+    ]
   },
   //  Application Tickets
   {
@@ -86,7 +171,27 @@ export const TicketData: Ticket[] = [
     acceptMessage:
       'Thank you for your application, we will be in touch shortly.',
     declineMessage:
-      'Thank you for your application, unfortunately we are not looking for any more staff at this time.'
+      'Thank you for your application, unfortunately we are not looking for any more staff at this time.',
+    fields: [
+      {
+        id: 'query',
+        name: 'What is your question?',
+        placeholder: 'Please describe your question in detail.',
+        type: TextInputStyle.Paragraph,
+        minLength: 10,
+        maxLength: 300,
+        required: true
+      },
+      {
+        id: 'name',
+        name: 'What is your name?',
+        placeholder: 'Please enter your name.',
+        type: TextInputStyle.Short,
+        minLength: 1,
+        maxLength: 20,
+        required: true
+      }
+    ]
   },
   {
     id: 'apply-for-builder',
@@ -96,7 +201,27 @@ export const TicketData: Ticket[] = [
     acceptMessage:
       'Thank you for your application, we will be in touch shortly.',
     declineMessage:
-      'Thank you for your application, unfortunately we are not looking for any more builders at this time.'
+      'Thank you for your application, unfortunately we are not looking for any more builders at this time.',
+    fields: [
+      {
+        id: 'query',
+        name: 'What is your question?',
+        placeholder: 'Please describe your question in detail.',
+        type: TextInputStyle.Paragraph,
+        minLength: 10,
+        maxLength: 300,
+        required: true
+      },
+      {
+        id: 'name',
+        name: 'What is your name?',
+        placeholder: 'Please enter your name.',
+        type: TextInputStyle.Short,
+        minLength: 1,
+        maxLength: 20,
+        required: true
+      }
+    ]
   },
   {
     id: 'apply-for-content-creator',
@@ -106,7 +231,27 @@ export const TicketData: Ticket[] = [
     acceptMessage:
       'Thank you for your application, we will be in touch shortly.',
     declineMessage:
-      'Thank you for your application, unfortunately we are not looking for any more content creators at this time.'
+      'Thank you for your application, unfortunately we are not looking for any more content creators at this time.',
+    fields: [
+      {
+        id: 'query',
+        name: 'What is your question?',
+        placeholder: 'Please describe your question in detail.',
+        type: TextInputStyle.Paragraph,
+        minLength: 10,
+        maxLength: 300,
+        required: true
+      },
+      {
+        id: 'name',
+        name: 'What is your name?',
+        placeholder: 'Please enter your name.',
+        type: TextInputStyle.Short,
+        minLength: 1,
+        maxLength: 20,
+        required: true
+      }
+    ]
   },
   {
     id: 'apply-for-beta-tester',
@@ -116,7 +261,36 @@ export const TicketData: Ticket[] = [
     acceptMessage:
       'Thank you for your application, we will be in touch shortly.',
     declineMessage:
-      'Thank you for your application, unfortunately we are not looking for any more beta testers at this time.'
+      'Thank you for your application, unfortunately we are not looking for any more beta testers at this time.',
+    fields: [
+      {
+        id: 'query',
+        name: 'What is your question?',
+        placeholder: 'Please describe your question in detail.',
+        type: TextInputStyle.Paragraph,
+        minLength: 10,
+        maxLength: 300,
+        required: true
+      },
+      {
+        id: 'name',
+        name: 'What is your name?',
+        placeholder: 'Please enter your name.',
+        type: TextInputStyle.Short,
+        minLength: 1,
+        maxLength: 20,
+        required: true
+      },
+      {
+        id: 'Experience',
+        name: 'Brief about your experience?',
+        placeholder: 'Please enter your experience.',
+        type: TextInputStyle.Paragraph,
+        minLength: 1,
+        maxLength: 300,
+        required: true
+      }
+    ]
   }
 ];
 
