@@ -68,21 +68,21 @@ export const createTicket = async (
       .setDescription(
         `Hey, ${interaction.user}. Your ticket has been created: ${ticketChannel}`
       );
-  
+
     const ticketInitEmbed = new EmbedBuilder()
       .setTitle(ticket.name)
       .setColor(bot.config.COLORS.MAIN as ColorResolvable)
       .setDescription(
         ticket.description + '\n\n**Description:** \n' + description
       );
-  
+
     //  send msg in ticket channel & pin it!
     const message = await ticketChannel.send({
       embeds: [ticketInitEmbed],
       components: [row]
     });
     await message.pin();
-  
+
     const linkRow = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
         .setLabel('Go to Ticket')
@@ -103,19 +103,26 @@ export const createTicket = async (
     }, 2000);
 
     return {
-      success: true,
+      success: true
     };
-  } else if (ticket.type === 'APPLICATION' || ticket.type === 'TEST-APPLICATION') {
-    const ticketChannel = await (await bot.getManagementGuild()).channels.fetch(ticket.channelId);
-    if (!ticketChannel) return {
-      success: false,
-      error: 'Ticket channel not found'
-    };
+  } else if (
+    ticket.type === 'APPLICATION' ||
+    ticket.type === 'TEST-APPLICATION'
+  ) {
+    const ticketChannel = await (
+      await bot.getManagementGuild()
+    ).channels.fetch(ticket.channelId);
+    if (!ticketChannel)
+      return {
+        success: false,
+        error: 'Ticket channel not found'
+      };
 
-    if (ticketChannel.type !== ChannelType.GuildText) return {
-      success: false,
-      error: 'Ticket channel is not a text channel'
-    };
+    if (ticketChannel.type !== ChannelType.GuildText)
+      return {
+        success: false,
+        error: 'Ticket channel is not a text channel'
+      };
 
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
@@ -131,10 +138,12 @@ export const createTicket = async (
     const ticketInitEmbed = new EmbedBuilder()
       .setTitle(ticket.name)
       .setColor(bot.config.COLORS.MAIN as ColorResolvable)
-      .setDescription(`
+      .setDescription(
+        `
         **Username:** <@${userId}>
         **Description:** \n${description}
-      `)
+      `
+      )
       .setTimestamp();
 
     await ticketChannel.send({
@@ -152,7 +161,7 @@ export const createTicket = async (
     }, 5000);
 
     return {
-      success: true,
+      success: true
     };
   }
 };
@@ -180,7 +189,6 @@ export const isTicketAlreadyOpened = async (
   username: string,
   ticketId: string
 ): Promise<boolean> => {
-
   for (let channel of guild.channels.cache.values()) {
     channel = channel as TextChannel;
     if (channel.name === `ticket-${username.split('#').join('')}`) {
@@ -194,7 +202,10 @@ export const isTicketAlreadyOpened = async (
 };
 
 //  check if max tickets per category is reached
-export const maxTicketPerCategoryReached = async (guild: Guild, ticketId: string) => {
+export const maxTicketPerCategoryReached = async (
+  guild: Guild,
+  ticketId: string
+) => {
   const ticket = bot.ticketData.find((ticket) => ticket.id === ticketId);
   if (ticket == null || ticket.type !== 'CHAT') return false;
   const maxTickets = ticket.maxTickets;
@@ -203,20 +214,18 @@ export const maxTicketPerCategoryReached = async (guild: Guild, ticketId: string
     channel = channel as TextChannel;
     if (channel.name.startsWith('ticket-')) count++;
   }
-  if (count === maxTickets ?? 0)
-    return true;
+  if (count === maxTickets ?? 0) return true;
   else return false;
 };
 
 //  check if max tickets per category is reached
 export const maxTicketReached = async (guild: Guild) => {
-  const maxTickets = bot.config.MAX_TICKETS
+  const maxTickets = bot.config.MAX_TICKETS;
   let count = 0;
   for (let channel of guild.channels.cache.values()) {
     channel = channel as TextChannel;
     if (channel.name.startsWith('ticket-')) count++;
   }
-  if (count === maxTickets ?? 0)
-    return true;
+  if (count === maxTickets ?? 0) return true;
   else return false;
 };

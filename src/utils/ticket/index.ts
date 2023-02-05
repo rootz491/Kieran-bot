@@ -4,14 +4,22 @@ import {
   TextChannel,
   AttachmentBuilder,
   Message,
-  User,
+  User
 } from 'discord.js';
 import { FetchMessageOptions } from '../../types/message';
 import { Ticket } from '../../types/ticket';
 
-export const closeTicket = async (ticketChanneId: string, loggingChannelId: string, ticketClosedBy: string) => {
-  const ticketChannel = (await bot.getMainGuild()).channels.cache.get(ticketChanneId) as TextChannel;
-  const loggingChannel = (await bot.getManagementGuild()).channels.cache.get(loggingChannelId) as TextChannel;
+export const closeTicket = async (
+  ticketChanneId: string,
+  loggingChannelId: string,
+  ticketClosedBy: string
+) => {
+  const ticketChannel = (await bot.getMainGuild()).channels.cache.get(
+    ticketChanneId
+  ) as TextChannel;
+  const loggingChannel = (await bot.getManagementGuild()).channels.cache.get(
+    loggingChannelId
+  ) as TextChannel;
 
   if (ticketChannel == null) {
     console.log('Ticket channel not found!');
@@ -28,12 +36,18 @@ export const closeTicket = async (ticketChanneId: string, loggingChannelId: stri
     return false;
   }
 
-  await sendTranscript(ticketChannel, loggingChannel, ticket, ticketClosedBy, async () => {
-  await ticketChannel
-    .delete()
-    .then(() => true)
-    .catch(() => false);
-  });
+  await sendTranscript(
+    ticketChannel,
+    loggingChannel,
+    ticket,
+    ticketClosedBy,
+    async () => {
+      await ticketChannel
+        .delete()
+        .then(() => true)
+        .catch(() => false);
+    }
+  );
 
   return true;
 };
@@ -45,7 +59,6 @@ export const sendTranscript = async (
   ticketClosedBy: string,
   callback: () => Promise<void>
 ) => {
-
   const messages = await fetchMessages(ticketChannel, { reverseArray: true });
   if (!messages.length) return;
 
@@ -67,13 +80,13 @@ export const sendTranscript = async (
     }
   );
 
-  const ticketCreatorID = ticketChannel.topic?.split("|")[1].trim(); 
+  const ticketCreatorID = ticketChannel.topic?.split('|')[1].trim();
   loggingChannel
     .send({
       content: [
         `**${ticket.name}**`,
         'Ticket Created by: <@' + ticketCreatorID + '>',
-        'Ticket Closed by: <@' + ticketClosedBy + '>',
+        'Ticket Closed by: <@' + ticketClosedBy + '>'
       ].join('\n'),
       files: [transcript]
     })
@@ -82,7 +95,6 @@ export const sendTranscript = async (
     .catch((_) => {
       console.log('Could not send transcript to logging channel!');
     });
-
 };
 
 export const fetchMessages = async (

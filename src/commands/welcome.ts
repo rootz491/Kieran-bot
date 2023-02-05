@@ -1,4 +1,9 @@
-import { ColorResolvable, CommandInteraction, EmbedBuilder, SlashCommandBuilder } from 'discord.js';
+import {
+  ColorResolvable,
+  CommandInteraction,
+  EmbedBuilder,
+  SlashCommandBuilder
+} from 'discord.js';
 import { bot } from '..';
 import embedBuilder from '../utils/EmbedBuilder';
 
@@ -13,31 +18,29 @@ export default {
       if (embedRes.success === false) {
         await interaction.reply({
           content: embedRes.error,
-          ephemeral: true,
+          ephemeral: true
         });
         return;
       }
 
       if (embedRes.embed != null) {
-
         await interaction.channel?.send({
-          embeds: [embedRes.embed],
+          embeds: [embedRes.embed]
         });
-  
+
         await interaction.reply({
           content: 'Embed sent!',
-          ephemeral: true,
+          ephemeral: true
         });
-  
+
         setTimeout(() => {
           interaction.deleteReply();
         }, 4000);
         return;
-  
       } else {
         await interaction.reply({
           content: 'This command data is not available at the moment.',
-          ephemeral: true,
+          ephemeral: true
         });
         return;
       }
@@ -45,7 +48,7 @@ export default {
       console.error(error);
       await interaction.reply({
         content: 'An error occurred while executing this command.',
-        ephemeral: true,
+        ephemeral: true
       });
     }
   }

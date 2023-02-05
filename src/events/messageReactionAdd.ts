@@ -1,4 +1,10 @@
-import { Events, MessageReaction, PartialMessageReaction, PartialUser, User } from 'discord.js';
+import {
+  Events,
+  MessageReaction,
+  PartialMessageReaction,
+  PartialUser,
+  User
+} from 'discord.js';
 import { bot } from '..';
 
 export default {
@@ -9,12 +15,10 @@ export default {
     user: User | PartialUser
   ) {
     try {
-
       /* return if user is bot */
       if (user.bot) {
         return;
       }
-
 
       const roles = bot.commandData.find(
         (command) => command.name === 'roles'
@@ -36,7 +40,9 @@ export default {
       }
 
       //  fetch message
-      const message = await reaction.message.channel.messages.fetch(reaction.message.id);
+      const message = await reaction.message.channel.messages.fetch(
+        reaction.message.id
+      );
       if (!message) {
         return;
       }
@@ -56,13 +62,17 @@ export default {
         return;
       }
 
-      const roleData = roles?.find((role) => role.emoji === reaction.emoji.name);
+      const roleData = roles?.find(
+        (role) => role.emoji === reaction.emoji.name
+      );
 
       if (!roleData) {
         return;
       }
 
-      const role = await reaction.message.guild.roles.fetch(roleData?.id as string);
+      const role = await reaction.message.guild.roles.fetch(
+        roleData?.id as string
+      );
 
       if (role) {
         await member.roles.add(role);
@@ -71,7 +81,6 @@ export default {
 
       //  remove reaction from user
       await reaction.users.remove(user.id);
-
     } catch (error) {
       console.log(error);
     }

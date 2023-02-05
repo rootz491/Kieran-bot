@@ -73,7 +73,10 @@ export default class Bot {
       const rest = new REST({ version: '9' }).setToken(config.TOKEN);
       rest
         .put(
-          Routes.applicationGuildCommands(config.CLIENT_ID, config.GUILDS.MAIN_GUILD_ID),
+          Routes.applicationGuildCommands(
+            config.CLIENT_ID,
+            config.GUILDS.MAIN_GUILD_ID
+          ),
           { body: this.commandsRegisterArray }
         )
         .then(() =>
@@ -84,7 +87,9 @@ export default class Bot {
   }
 
   public async getManagementGuild() {
-    const guild = await this.client.guilds.fetch(config.GUILDS.MANAGEMENT_GUILD_ID);
+    const guild = await this.client.guilds.fetch(
+      config.GUILDS.MANAGEMENT_GUILD_ID
+    );
     return guild;
   }
 

@@ -24,7 +24,9 @@ interface ApplicationTicket extends BaseTicket {
 
 export type TicketType = 'CHAT' | 'APPLICATION' | 'TEST-APPLICATION';
 
-type TicketClosingMessage = TicketClosingMessageEnabled | TicketClosingMessageDisabled;
+type TicketClosingMessage =
+  | TicketClosingMessageEnabled
+  | TicketClosingMessageDisabled;
 
 interface TicketClosingMessageEnabled {
   enabled: true;
