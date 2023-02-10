@@ -1,8 +1,8 @@
-import { ActionRowBuilder, ModalBuilder, TextInputBuilder } from 'discord.js';
+import { ActionRowBuilder, ColorResolvable, EmbedBuilder, ModalBuilder, TextInputBuilder } from 'discord.js';
 import { ButtonInteraction, GuildMember, TextChannel } from 'discord.js';
 import { bot } from '../..';
 import { ButtonHandler } from '../../types/handlers';
-import { TicketFormData, TicketType } from '../../types/ticket';
+import { TicketFormData } from '../../types/ticket';
 import { closeTicket } from '../../utils/ticket';
 import {
   createTicket,
@@ -45,6 +45,17 @@ const buttonHandler: ButtonHandler = {
         return;
       }
 
+      const ticketCreatorUserId = topic.split('|')[1].trim();
+      const ticketCreator = (await bot.getMainGuild())?.members.cache.get(
+        ticketCreatorUserId
+      );
+      if (ticketCreator == null) {
+        await interaction.editReply(
+          'Could not find ticket creator! Please contact admin.'
+        );
+        return;
+      }
+
       const ticketId = topic.split('|')[3].trim();
       const ticket = bot.ticketData.find((ticket) => ticket.id === ticketId);
       if (ticket == null) {
@@ -52,12 +63,54 @@ const buttonHandler: ButtonHandler = {
         return;
       }
 
-      if (ticket.type === 'CHAT') {
+      if (ticket.type === 'CHAT' || ticket.type === 'COMBINED') {
+
+        if (ticket.type === 'COMBINED') {
+          // fetch oldest message in channel
+          const firstMessage = (await interaction.channel?.messages.fetch())?.reverse().first();
+          const firstMessageEmbed = firstMessage?.embeds[0];
+
+          if (firstMessageEmbed == null) {
+            await interaction.editReply(
+              'Could not find ticket embed! Therefore, could not create application for this ticket.\nPlease contact developer.'
+            );
+            return;
+          } else {
+
+            const keyData = firstMessageEmbed.description?.split('\n')
+              .filter((_, index) => index !== 0)
+              .filter((field) => field !== '')
+              .filter((field) => field.startsWith('**'));
+            const valueData = firstMessageEmbed.description?.split('\n')
+              .filter((_, index) => index !== 0)
+              .filter((field) => field !== '')
+              .filter((field) => !field.startsWith('**'));
+            
+            const ticketFormData: TicketFormData[] = [];
+            keyData?.forEach((key, index) => {
+              ticketFormData.push({
+                id: key.replace('**', '').replace('**', '').replace(':', '').trim(),
+                text: valueData?.[index] as string
+              });
+            });
+
+            // TODO create application for this ticket
+            createTicket(
+              interaction,
+              ticketFormData,
+              ticket,
+              ticketCreatorUserId,
+              true
+            )
+          }
+        }
+
         const ticketRes = await closeTicket(
           interaction.channelId,
           ticket.loggingChannel,
           interaction.user.id
         );
+
         if (ticketRes && ticketRes === true) {
           console.log('Ticket resolved!');
         } else {
@@ -65,6 +118,19 @@ const buttonHandler: ButtonHandler = {
             'Ticket could not be resolved! Please contact developer.'
           );
         }
+
+        if (ticket.ticketClosingMessage.enabled === true) {
+          await ticketCreator.send({
+            embeds: [
+              new EmbedBuilder()
+                .setTitle(ticket.ticketClosingMessage.title)
+                .setDescription(
+                  ticket.ticketClosingMessage.description
+                )
+            ]
+          });
+        }
+
       } else {
         await interaction.editReply(
           `This button [${interaction.customId}] is not available for this ticket type!`
@@ -86,7 +152,7 @@ const buttonHandler: ButtonHandler = {
 
       if (member == null) {
         await interaction.editReply({
-          content: 'Could not find member in server! Please contact admin.'
+          content: 'Could not find member in "MAIN" server! Please contact admin.'
         });
         return;
       }
@@ -100,7 +166,7 @@ const buttonHandler: ButtonHandler = {
         return;
       }
 
-      if (ticket.type === 'APPLICATION' || ticket.type === 'TEST-APPLICATION') {
+      if (ticket.type === 'APPLICATION' || ticket.type === 'TEST-APPLICATION' || ticket.type === 'COMBINED') {
         if (interaction.customId.startsWith('accept')) {
           await member.send({
             content: ticket.acceptMessage
@@ -247,7 +313,8 @@ const buttonHandler: ButtonHandler = {
             submittedInteraction,
             ticketData,
             ticket,
-            interaction.user.id
+            interaction.user.id,
+            false
           );
 
           if (ticketRes && ticketRes.success) {

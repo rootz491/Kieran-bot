@@ -10,18 +10,20 @@ import {
   OverwriteType,
   PermissionFlagsBits,
   ColorResolvable,
-  ChannelType
+  ChannelType,
+  ButtonInteraction
 } from 'discord.js';
 import { bot } from '../..';
 import { Ticket, TicketFormData } from '../../types/ticket';
 
 export const createTicket = async (
-  interaction: ModalSubmitInteraction,
+  interaction: ModalSubmitInteraction | ButtonInteraction,
   data: TicketFormData[],
   ticket: Ticket,
-  userId: string
+  userId: string,
+  isCombinedApplicationRequest: boolean = false
 ) => {
-  if (ticket.type === 'CHAT') {
+  if ((ticket.type === 'CHAT' || ticket.type === 'COMBINED') && isCombinedApplicationRequest === false) {
     //  create a channel, add admin, staff & user
     const ticketChannel = await interaction.guild!.channels.create({
       name: `ticket-${interaction.user.tag}`,
@@ -57,7 +59,7 @@ export const createTicket = async (
     //  prepare an embed with support information
     const row = new ActionRowBuilder<ButtonBuilder>().addComponents(
       new ButtonBuilder()
-        .setCustomId(`resolve-${ticketChannel.id}`) //  TODO maybe update this based on ticket type
+        .setCustomId(`resolve-${ticketChannel.id}`)
         .setLabel('Resolve Ticket')
         .setStyle(ButtonStyle.Danger)
     );
@@ -75,7 +77,7 @@ export const createTicket = async (
         ticket.description +
           data
             .map((field) => {
-              return `\n**${field.id}:** \n${field.text}`;
+              return `\n\n**${field.id}:**\n${field.text}`;
             })
             .join('')
       );
@@ -111,7 +113,8 @@ export const createTicket = async (
     };
   } else if (
     ticket.type === 'APPLICATION' ||
-    ticket.type === 'TEST-APPLICATION'
+    ticket.type === 'TEST-APPLICATION' ||
+    ticket.type === 'COMBINED'
   ) {
     const ticketChannel = await (
       await bot.getManagementGuild()
@@ -146,7 +149,7 @@ export const createTicket = async (
         `**Username:** <@${userId}>` +
           data
             .map((field) => {
-              return `\n**${field.id}:** \n${field.text}`;
+              return `\n\n**${field.id}:** \n${field.text}`;
             })
             .join('')
       )
@@ -157,14 +160,16 @@ export const createTicket = async (
       components: [row]
     });
 
-    await interaction.reply({
-      content: 'Your application has been sent!',
-      ephemeral: true
-    });
-
-    setTimeout(() => {
-      interaction.deleteReply().catch((err) => console.log(err));
-    }, 5000);
+    
+    if (!isCombinedApplicationRequest) {
+      await interaction.reply({
+        content: 'Your application has been sent!',
+        ephemeral: true
+      });
+      setTimeout(() => {
+        interaction.deleteReply().catch((err) => console.log(err));
+      }, 5000);
+    }
 
     return {
       success: true

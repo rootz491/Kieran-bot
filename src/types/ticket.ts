@@ -1,6 +1,6 @@
 import { TextInputStyle } from 'discord.js';
 
-export type Ticket = ChatTicket | ApplicationTicket;
+export type Ticket = ChatTicket | ApplicationTicket | CombinedTicket;
 
 interface BaseTicket {
   id: string;
@@ -34,7 +34,19 @@ interface ApplicationTicket extends BaseTicket {
   declineMessage: string;
 }
 
-export type TicketType = 'CHAT' | 'APPLICATION' | 'TEST-APPLICATION';
+interface CombinedTicket extends BaseTicket {
+  type: 'COMBINED';
+  categoryId: string;
+  description: string;
+  ticketClosingMessage: TicketClosingMessage;
+  loggingChannel: string;
+  maxTickets: number;
+  channelId: string;
+  acceptMessage: string;
+  declineMessage: string;
+}
+
+export type TicketType = 'CHAT' | 'APPLICATION' | 'TEST-APPLICATION' | 'COMBINED';
 
 type TicketClosingMessage =
   | TicketClosingMessageEnabled

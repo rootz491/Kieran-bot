@@ -223,10 +223,20 @@ export const TicketData: Ticket[] = [
       }
     ]
   },
+  //  Combined Tickets
   {
     id: 'apply-for-content-creator',
     name: 'Apply for Content Creator',
-    type: 'APPLICATION',
+    type: 'COMBINED',
+    categoryId: '1064877949641293865',
+    loggingChannel: '1064887383348232292',
+    description: 'Please be patient, a staff member will be with you shortly.',
+    ticketClosingMessage: {
+      enabled: true,
+      description: 'Your ticket has been closed.',
+      title: 'Ticket Closed'
+    },
+    maxTickets: 20,
     channelId: '1065267606552051812',
     acceptMessage:
       'Thank you for your application, we will be in touch shortly.',
@@ -234,7 +244,7 @@ export const TicketData: Ticket[] = [
       'Thank you for your application, unfortunately we are not looking for any more content creators at this time.',
     fields: [
       {
-        id: 'query',
+        id: 'Question',
         name: 'What is your question?',
         placeholder: 'Please describe your question in detail.',
         type: TextInputStyle.Paragraph,
@@ -243,7 +253,7 @@ export const TicketData: Ticket[] = [
         required: true
       },
       {
-        id: 'name',
+        id: 'Name',
         name: 'What is your name?',
         placeholder: 'Please enter your name.',
         type: TextInputStyle.Short,
@@ -253,6 +263,7 @@ export const TicketData: Ticket[] = [
       }
     ]
   },
+  //  Test Application Tickets
   {
     id: 'apply-for-beta-tester',
     name: 'Apply for Beta Tester',

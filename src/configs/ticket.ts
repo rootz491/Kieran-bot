@@ -196,10 +196,18 @@ export const TicketData: Ticket[] = [
       }
     ]
   },
+  // Combined Tickets
   {
     id: 'apply-for-content-creator',
     name: 'Apply for Content Creator',
-    type: 'APPLICATION',
+    type: 'COMBINED',
+    categoryId: '1024085500736315432',
+    loggingChannel: '1058142239714451497',
+    description: 'Please be patient, a staff member will be with you shortly.',
+    ticketClosingMessage: {
+      enabled: false
+    },
+    maxTickets: 20,
     channelId: '-',
     acceptMessage:
       'Thank you for your application, we will be in touch shortly.',
@@ -217,6 +225,7 @@ export const TicketData: Ticket[] = [
       }
     ]
   },
+  // Test Application Tickets
   {
     id: 'apply-for-beta-tester',
     name: 'Apply for Beta Tester',
