@@ -1,21 +1,14 @@
 export default {
   TOKEN:
-    'MTAwODU1ODU4MTUxMzE5MTUwNA.GuPGjq.MS7ZHSHbk14l7eL9Zm1Jtideac066xB_e7qC5c',
+    '', //  bot token
   GUILDS: {
-    MAIN_GUILD_ID: '985745915375648848',
-    MANAGEMENT_GUILD_ID: '1040694889668694107'
+    MAIN_GUILD_ID: '',  //  main guild id/ server id 
+    MANAGEMENT_GUILD_ID: '' //  management guild id/ server id
   },
-  CLIENT_ID: '1008558581513191504',
+  CLIENT_ID: '', // user id of the bot
   ROLES: {
-    STAFF_ROLE_ID: '1020918716684308572', //  TODO update this
-    ADMIN_ROLE_ID: '999859062646771874' //  TODO update this
-  },
-  COLORS: {
-    MAIN: '#00ff00',
-    SUCCESS: '#00ff00',
-    ERROR: '#ff0000',
-    WARNING: '#ffff00',
-    INFO: '#0000ff'
+    STAFF_ROLE_ID: '',
+    ADMIN_ROLE_ID: ''
   },
   MAX_TICKET_PER_USER: 3,
   MAX_TICKETS: 10

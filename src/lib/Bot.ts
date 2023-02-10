@@ -3,8 +3,8 @@ import { join } from 'path';
 import fs from 'fs';
 import { REST } from '@discordjs/rest';
 import { Routes } from 'discord-api-types/v9';
-import config from '../configs/config.dev';
-import { TicketData, TicketMenuData } from '../configs/ticket.dev';
+import config from '../configs/config';
+import { TicketData, TicketMenuData } from '../configs/ticket';
 import { CommandData } from '../configs/command';
 
 export default class Bot {

@@ -124,9 +124,9 @@ export const CommandData: Command[] = [
     },
     roles: [
       {
-        name: 'Events',
-        id: '1064932373994680421',
-        emoji: '🎉'
+        name: 'Events', //  <---  This is the role name
+        id: '1064932373994680421',  //  <---  This is the role ID
+        emoji: '🎉' //  <---  This is the emoji
       },
       {
         name: 'Media',

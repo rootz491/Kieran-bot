@@ -7,17 +7,17 @@ export const TicketData: Ticket[] = [
     id: 'claim-reward',
     name: 'Claim a Reward',
     type: 'CHAT',
-    categoryId: '1024085417299017828',
-    loggingChannel: '1039619114576117760',
-    description: 'Please be patient, a staff member will be with you shortly.',
-    ticketClosingMessage: {
+    categoryId: '1024085417299017828',  //  Category ID for the ticket
+    loggingChannel: '1039619114576117760',  //  Channel ID for logging in the management guild
+    description: 'Please be patient, a staff member will be with you shortly.', //  Description for the ticket embed, upon opening a ticket
+    ticketClosingMessage: { //  Ticket closing message, DM to the user. If you don't want to send a message, set enabled to false
       enabled: true,
       title: 'Ticket Closed',
       description:
         'Your ticket has been closed. If you have any further questions, please open a new ticket.'
     },
     maxTickets: 20,
-    fields: [
+    fields: [ //  Ticket fields, you can add up to 5 fields
       {
         id: 'query',
         name: 'What is your question?',
@@ -42,8 +42,8 @@ export const TicketData: Ticket[] = [
     id: 'contact-admin',
     name: 'Contact an Admin',
     type: 'CHAT',
-    categoryId: '1024085579106885763',
-    loggingChannel: '1039619114576117760',
+    categoryId: '1064877949641293865',
+    loggingChannel: '1064887383348232292',
     description: 'Please be patient, a staff member will be with you shortly.',
     ticketClosingMessage: {
       enabled: false
@@ -65,8 +65,8 @@ export const TicketData: Ticket[] = [
     id: 'report-bug',
     name: 'Report a Bug',
     type: 'CHAT',
-    categoryId: '1039862828280074260',
-    loggingChannel: '1039619114576117760',
+    categoryId: '1064877949641293865',
+    loggingChannel: '1064887383348232292',
     description: 'Please be patient, a staff member will be with you shortly.',
     ticketClosingMessage: {
       enabled: false
@@ -88,8 +88,8 @@ export const TicketData: Ticket[] = [
     id: 'report-player',
     name: 'Report a Player ',
     type: 'CHAT',
-    categoryId: '1024085500736315432',
-    loggingChannel: '1058142239714451497',
+    categoryId: '1064877949641293865',
+    loggingChannel: '1064887383348232292',
     description: 'Please be patient, a staff member will be with you shortly.',
     ticketClosingMessage: {
       enabled: false
@@ -111,8 +111,8 @@ export const TicketData: Ticket[] = [
     id: 'appeal-punishment',
     name: 'Appeal a Punishment',
     type: 'CHAT',
-    categoryId: '1024085786708164628',
-    loggingChannel: '1058142239714451497',
+    categoryId: '1064877949641293865',
+    loggingChannel: '1064887383348232292',
     description: 'Please be patient, a staff member will be with you shortly.',
     ticketClosingMessage: {
       enabled: false
@@ -134,8 +134,8 @@ export const TicketData: Ticket[] = [
     id: 'other-inquiries',
     name: 'Other Inquiries',
     type: 'CHAT',
-    categoryId: '1024085914554748938',
-    loggingChannel: '1058142239714451497',
+    categoryId: '1064877949641293865',
+    loggingChannel: '1064887383348232292',
     description: 'Please be patient, a staff member will be with you shortly.',
     ticketClosingMessage: {
       enabled: false
@@ -150,6 +150,15 @@ export const TicketData: Ticket[] = [
         minLength: 10,
         maxLength: 300,
         required: true
+      },
+      {
+        id: 'name',
+        name: 'What is your name?',
+        placeholder: 'Please enter your name.',
+        type: TextInputStyle.Short,
+        minLength: 1,
+        maxLength: 20,
+        required: true
       }
     ]
   },
@@ -158,7 +167,7 @@ export const TicketData: Ticket[] = [
     id: 'apply-for-staff',
     name: 'Apply for Staff',
     type: 'APPLICATION',
-    channelId: '-',
+    channelId: '1065267606552051812',
     acceptMessage:
       'Thank you for your application, we will be in touch shortly.',
     declineMessage:
@@ -172,6 +181,15 @@ export const TicketData: Ticket[] = [
         minLength: 10,
         maxLength: 300,
         required: true
+      },
+      {
+        id: 'name',
+        name: 'What is your name?',
+        placeholder: 'Please enter your name.',
+        type: TextInputStyle.Short,
+        minLength: 1,
+        maxLength: 20,
+        required: true
       }
     ]
   },
@@ -179,7 +197,7 @@ export const TicketData: Ticket[] = [
     id: 'apply-for-builder',
     name: 'Apply for Builder',
     type: 'APPLICATION',
-    channelId: '-',
+    channelId: '1065267606552051812',
     acceptMessage:
       'Thank you for your application, we will be in touch shortly.',
     declineMessage:
@@ -193,44 +211,64 @@ export const TicketData: Ticket[] = [
         minLength: 10,
         maxLength: 300,
         required: true
+      },
+      {
+        id: 'name',
+        name: 'What is your name?',
+        placeholder: 'Please enter your name.',
+        type: TextInputStyle.Short,
+        minLength: 1,
+        maxLength: 20,
+        required: true
       }
     ]
   },
-  // Combined Tickets
+  //  Combined Tickets
   {
     id: 'apply-for-content-creator',
     name: 'Apply for Content Creator',
     type: 'COMBINED',
-    categoryId: '1024085500736315432',
-    loggingChannel: '1058142239714451497',
+    categoryId: '1064877949641293865',
+    loggingChannel: '1064887383348232292',
     description: 'Please be patient, a staff member will be with you shortly.',
     ticketClosingMessage: {
-      enabled: false
+      enabled: true,
+      description: 'Your ticket has been closed.',
+      title: 'Ticket Closed'
     },
     maxTickets: 20,
-    channelId: '-',
+    channelId: '1065267606552051812',
     acceptMessage:
       'Thank you for your application, we will be in touch shortly.',
     declineMessage:
       'Thank you for your application, unfortunately we are not looking for any more content creators at this time.',
     fields: [
       {
-        id: 'query',
+        id: 'Question',
         name: 'What is your question?',
         placeholder: 'Please describe your question in detail.',
         type: TextInputStyle.Paragraph,
         minLength: 10,
         maxLength: 300,
         required: true
+      },
+      {
+        id: 'Name',
+        name: 'What is your name?',
+        placeholder: 'Please enter your name.',
+        type: TextInputStyle.Short,
+        minLength: 1,
+        maxLength: 20,
+        required: true
       }
     ]
   },
-  // Test Application Tickets
+  //  Test Application Tickets
   {
     id: 'apply-for-beta-tester',
     name: 'Apply for Beta Tester',
     type: 'TEST-APPLICATION',
-    channelId: '-',
+    channelId: '1065267606552051812',
     acceptMessage:
       'Thank you for your application, we will be in touch shortly.',
     declineMessage:
@@ -242,6 +280,24 @@ export const TicketData: Ticket[] = [
         placeholder: 'Please describe your question in detail.',
         type: TextInputStyle.Paragraph,
         minLength: 10,
+        maxLength: 300,
+        required: true
+      },
+      {
+        id: 'name',
+        name: 'What is your name?',
+        placeholder: 'Please enter your name.',
+        type: TextInputStyle.Short,
+        minLength: 1,
+        maxLength: 20,
+        required: true
+      },
+      {
+        id: 'Experience',
+        name: 'Brief about your experience?',
+        placeholder: 'Please enter your experience.',
+        type: TextInputStyle.Paragraph,
+        minLength: 1,
         maxLength: 300,
         required: true
       }

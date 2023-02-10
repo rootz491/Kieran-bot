@@ -65,14 +65,12 @@ export const createTicket = async (
     );
     const confirmationEmbed = new EmbedBuilder()
       .setTitle('Ticket Request')
-      .setColor(bot.config.COLORS.SUCCESS as ColorResolvable)
       .setDescription(
         `Hey, ${interaction.user}. Your ticket has been created: ${ticketChannel}`
       );
 
     const ticketInitEmbed = new EmbedBuilder()
       .setTitle(ticket.name)
-      .setColor(bot.config.COLORS.MAIN as ColorResolvable)
       .setDescription(
         ticket.description +
           data
@@ -144,7 +142,6 @@ export const createTicket = async (
 
     const ticketInitEmbed = new EmbedBuilder()
       .setTitle(ticket.name)
-      .setColor(bot.config.COLORS.MAIN as ColorResolvable)
       .setDescription(
         `**Username:** <@${userId}>` +
           data
