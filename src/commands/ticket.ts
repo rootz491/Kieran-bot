@@ -36,7 +36,12 @@ export default {
       // build all ticket select menus from config
       const ticketButtons = bot.ticketMenuData.map((t) => {
         const buttons = bot.ticketData
-          .filter((ticket) => ticket.type === t.type)
+          .filter((ticket) => {
+            if (ticket.type === t.type)
+              return ticket;
+            else if (t.type === 'APPLICATION' && ticket.type === 'COMBINED')
+              return ticket;
+          })
           .map((ticket) => {
             return new ButtonBuilder()
               .setCustomId(`ticket-${ticket.id}`)
